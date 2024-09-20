@@ -31,6 +31,8 @@ PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
 
+RenderItem* item = nullptr;
+
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -54,7 +56,13 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
-	}
+
+
+	PxShape* shape = CreateShape(PxSphereGeometry(10));
+	PxTransform* tr = new PxTransform(PxVec3(0.0, 0.0, 0.0));
+	item = new RenderItem(shape, tr, PxVec4(1.0, 0.0, 0.0, 1.0));
+
+}
 
 
 // Function to configure what happens in each step of physics
@@ -72,6 +80,8 @@ void stepPhysics(bool interactive, double t)
 // Add custom code to the begining of the function
 void cleanupPhysics(bool interactive)
 {
+	DeregisterRenderItem(item);
+
 	PX_UNUSED(interactive);
 
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
@@ -84,7 +94,7 @@ void cleanupPhysics(bool interactive)
 	transport->release();
 	
 	gFoundation->release();
-	}
+}
 
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)
