@@ -10,6 +10,8 @@
 
 #include <iostream>
 
+#include "Vector3D.h"
+
 std::string display_text = "This is a test";
 
 
@@ -62,6 +64,11 @@ void initPhysics(bool interactive)
 	PxTransform* tr = new PxTransform(PxVec3(0.0, 0.0, 0.0));
 	item = new RenderItem(shape, tr, PxVec4(1.0, 0.0, 0.0, 1.0));
 
+	Vector3D patata(5.0, 5.0, 5.0);
+	Vector3D tomate(1.0, 2.0, 3.0);
+	float module = patata.Module();
+	patata.Normalize();
+	Vector3D lechuga = patata + tomate;
 }
 
 
