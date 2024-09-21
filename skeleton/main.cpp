@@ -33,7 +33,10 @@ PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
 
-RenderItem* item = nullptr;
+RenderItem* item1 = nullptr;
+RenderItem* item2 = nullptr;
+RenderItem* item3 = nullptr;
+RenderItem* item4 = nullptr;
 
 void customVector3DTests() {
 	Vector3D patata(5.0, 0.0, 0.0);
@@ -64,7 +67,7 @@ void customVector3DTests() {
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
-	customVector3DTests();
+	//customVector3DTests();
 
 	PX_UNUSED(interactive);
 
@@ -88,9 +91,25 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 
 
-	PxShape* shape = CreateShape(PxSphereGeometry(10));
-	PxTransform* tr = new PxTransform(PxVec3(0.0, 0.0, 0.0));
-	item = new RenderItem(shape, tr, PxVec4(1.0, 0.0, 0.0, 1.0));
+	Vector3D position(0.0, 0.0, 0.0);
+	PxShape* shape = CreateShape(PxSphereGeometry(1));
+	PxTransform* tr1 = new PxTransform(PxVec3(position.x, position.y, position.z));
+	item1 = new RenderItem(shape, tr1, PxVec4(1.0, 1.0, 1.0, 1.0));
+
+	position.x = 10;
+	PxTransform* tr2 = new PxTransform(PxVec3(position.x, position.y, position.z));
+	item2 = new RenderItem(shape, tr2, PxVec4(1.0, 0.0, 0.0, 1.0));
+
+	position.x = 0;
+	position.y = 10;
+	PxTransform* tr3 = new PxTransform(PxVec3(position.x, position.y, position.z));
+
+	item3 = new RenderItem(shape, tr3, PxVec4(0.0, 1.0, 0.0, 1.0));
+
+	position.y = 0;
+	position.z = 10;
+	PxTransform* tr4 = new PxTransform(PxVec3(position.x, position.y, position.z));
+	item4 = new RenderItem(shape, tr4, PxVec4(0.0, 0.0, 1.0, 1.0));
 }
 
 
@@ -109,7 +128,10 @@ void stepPhysics(bool interactive, double t)
 // Add custom code to the begining of the function
 void cleanupPhysics(bool interactive)
 {
-	DeregisterRenderItem(item);
+	DeregisterRenderItem(item1);
+	DeregisterRenderItem(item2);
+	DeregisterRenderItem(item3);
+	DeregisterRenderItem(item4);
 
 	PX_UNUSED(interactive);
 
