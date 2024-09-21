@@ -64,6 +64,27 @@ void customVector3DTests() {
 	cout << (tomate == patata);
 }
 
+void createAxis() {
+	PxShape* shape = CreateShape(PxSphereGeometry(1));
+
+	Vector3D position1(0.0, 0.0, 0.0);
+	PxTransform* tr1 = new PxTransform(PxVec3(position1.x, position1.y, position1.z));
+	item1 = new RenderItem(shape, tr1, PxVec4(1.0, 1.0, 1.0, 1.0));
+
+	Vector3D position2(10.0, 0.0, 0.0);
+	PxTransform* tr2 = new PxTransform(PxVec3(position2.x, position2.y, position2.z));
+	item2 = new RenderItem(shape, tr2, PxVec4(1.0, 0.0, 0.0, 1.0));
+
+	Vector3D position3(0.0, 10.0, 0.0);
+	PxTransform* tr3 = new PxTransform(PxVec3(position3.x, position3.y, position3.z));
+
+	item3 = new RenderItem(shape, tr3, PxVec4(0.0, 1.0, 0.0, 1.0));
+
+	Vector3D position4(0.0, 0.0, 10.0);
+	PxTransform* tr4 = new PxTransform(PxVec3(position4.x, position4.y, position4.z));
+	item4 = new RenderItem(shape, tr4, PxVec4(0.0, 0.0, 1.0, 1.0));
+}
+
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -90,26 +111,7 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 
-
-	Vector3D position(0.0, 0.0, 0.0);
-	PxShape* shape = CreateShape(PxSphereGeometry(1));
-	PxTransform* tr1 = new PxTransform(PxVec3(position.x, position.y, position.z));
-	item1 = new RenderItem(shape, tr1, PxVec4(1.0, 1.0, 1.0, 1.0));
-
-	position.x = 10;
-	PxTransform* tr2 = new PxTransform(PxVec3(position.x, position.y, position.z));
-	item2 = new RenderItem(shape, tr2, PxVec4(1.0, 0.0, 0.0, 1.0));
-
-	position.x = 0;
-	position.y = 10;
-	PxTransform* tr3 = new PxTransform(PxVec3(position.x, position.y, position.z));
-
-	item3 = new RenderItem(shape, tr3, PxVec4(0.0, 1.0, 0.0, 1.0));
-
-	position.y = 0;
-	position.z = 10;
-	PxTransform* tr4 = new PxTransform(PxVec3(position.x, position.y, position.z));
-	item4 = new RenderItem(shape, tr4, PxVec4(0.0, 0.0, 1.0, 1.0));
+	createAxis();
 }
 
 
