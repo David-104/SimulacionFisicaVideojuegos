@@ -35,9 +35,37 @@ ContactReportCallback gContactReportCallback;
 
 RenderItem* item = nullptr;
 
+void customVector3DTests() {
+	Vector3D patata(5.0, 0.0, 0.0);
+	cout << patata << endl;
+
+	Vector3D tomate(1.0, 2.0, 3.0);
+	cout << tomate << endl;
+
+	float module = patata.Module();
+	cout << module << endl;
+
+	cout << patata.Normalized() << endl;
+	cout << patata << " ";
+	patata.Normalize();
+	cout << patata << endl;
+
+	cout << patata + tomate << endl;
+
+	cout << patata * 7 << endl;
+
+	cout << patata * tomate << endl;
+
+	cout << (tomate == patata) << " ";
+	tomate = patata;
+	cout << (tomate == patata);
+}
+
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
+	customVector3DTests();
+
 	PX_UNUSED(interactive);
 
 	gFoundation = PxCreateFoundation(PX_FOUNDATION_VERSION, gAllocator, gErrorCallback);
@@ -63,12 +91,6 @@ void initPhysics(bool interactive)
 	PxShape* shape = CreateShape(PxSphereGeometry(10));
 	PxTransform* tr = new PxTransform(PxVec3(0.0, 0.0, 0.0));
 	item = new RenderItem(shape, tr, PxVec4(1.0, 0.0, 0.0, 1.0));
-
-	Vector3D patata(5.0, 5.0, 5.0);
-	Vector3D tomate(1.0, 2.0, 3.0);
-	float module = patata.Module();
-	patata.Normalize();
-	Vector3D lechuga = patata + tomate;
 }
 
 
