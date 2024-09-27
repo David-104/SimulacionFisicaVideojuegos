@@ -122,7 +122,7 @@ void initPhysics(bool interactive)
 
 	//createAxis();
 
-	particle = new Particle(Vector3D(0.0, 0.0, 0.0), Vector3D(10.0, 0.0, 0.0), Vector3D(-2.5, 0.0, 0.0));
+	particle = new Particle(Vector3D(0.0, 0.0, 0.0), Vector3D(10.0, 0.0, 0.0), Vector3D(10.0, 0.0, 0.0), 0.75);
 }
 
 
