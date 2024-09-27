@@ -11,6 +11,7 @@
 #include <iostream>
 
 #include "Vector3D.h"
+#include "Particle.h"
 
 std::string display_text = "This is a test";
 
@@ -33,10 +34,11 @@ PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
 
-RenderItem* item1 = nullptr;
-RenderItem* item2 = nullptr;
-RenderItem* item3 = nullptr;
-RenderItem* item4 = nullptr;
+RenderItem* center = nullptr;
+RenderItem* xAxis = nullptr;
+RenderItem* yAxys = nullptr;
+RenderItem* zAxis = nullptr;
+Particle* particle = nullptr;
 
 void customVector3DTests() {
 	Vector3D patata(5.0, 0.0, 0.0);
@@ -69,20 +71,27 @@ void createAxis() {
 
 	Vector3D position1(0.0, 0.0, 0.0);
 	PxTransform* tr1 = new PxTransform(PxVec3(position1.x, position1.y, position1.z));
-	item1 = new RenderItem(shape, tr1, PxVec4(1.0, 1.0, 1.0, 1.0));
+	center = new RenderItem(shape, tr1, PxVec4(1.0, 1.0, 1.0, 1.0));
 
 	Vector3D position2(10.0, 0.0, 0.0);
 	PxTransform* tr2 = new PxTransform(PxVec3(position2.x, position2.y, position2.z));
-	item2 = new RenderItem(shape, tr2, PxVec4(1.0, 0.0, 0.0, 1.0));
+	xAxis = new RenderItem(shape, tr2, PxVec4(1.0, 0.0, 0.0, 1.0));
 
 	Vector3D position3(0.0, 10.0, 0.0);
 	PxTransform* tr3 = new PxTransform(PxVec3(position3.x, position3.y, position3.z));
 
-	item3 = new RenderItem(shape, tr3, PxVec4(0.0, 1.0, 0.0, 1.0));
+	yAxys = new RenderItem(shape, tr3, PxVec4(0.0, 1.0, 0.0, 1.0));
 
 	Vector3D position4(0.0, 0.0, 10.0);
 	PxTransform* tr4 = new PxTransform(PxVec3(position4.x, position4.y, position4.z));
-	item4 = new RenderItem(shape, tr4, PxVec4(0.0, 0.0, 1.0, 1.0));
+	zAxis = new RenderItem(shape, tr4, PxVec4(0.0, 0.0, 1.0, 1.0));
+}
+
+void cleanupAxis() {
+	DeregisterRenderItem(center);
+	DeregisterRenderItem(xAxis);
+	DeregisterRenderItem(yAxys);
+	DeregisterRenderItem(zAxis);
 }
 
 // Initialize physics engine
@@ -111,7 +120,9 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 
-	createAxis();
+	//createAxis();
+
+	particle = new Particle(Vector3D(0.0, 0.0, 0.0), Vector3D(10.0, 0.0, 0.0));
 }
 
 
@@ -124,16 +135,16 @@ void stepPhysics(bool interactive, double t)
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
+	particle->Integrate(t);
 }
 
 // Function to clean data
 // Add custom code to the begining of the function
 void cleanupPhysics(bool interactive)
 {
-	DeregisterRenderItem(item1);
-	DeregisterRenderItem(item2);
-	DeregisterRenderItem(item3);
-	DeregisterRenderItem(item4);
+	//cleanupAxis();
+	particle->~Particle();
+
 
 	PX_UNUSED(interactive);
 
