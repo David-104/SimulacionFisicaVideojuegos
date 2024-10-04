@@ -17,7 +17,6 @@ Particle::Particle(Vector3D pos, Vector3D vel, Vector3D a, float d) : vel(vel), 
 Particle::~Particle()
 {
 	DeregisterRenderItem(renderItem);
-	delete(pose);
 }
 
 void Particle::Integrate(double t)

@@ -12,6 +12,7 @@
 
 #include "Vector3D.h"
 #include "Particle.h"
+#include "Proyectile.h"
 
 std::string display_text = "This is a test";
 
@@ -38,7 +39,7 @@ RenderItem* center = nullptr;
 RenderItem* xAxis = nullptr;
 RenderItem* yAxys = nullptr;
 RenderItem* zAxis = nullptr;
-Particle* particle = nullptr;
+Proyectile* proyectile = nullptr;
 
 void customVector3DTests() {
 	Vector3D patata(5.0, 0.0, 0.0);
@@ -120,9 +121,9 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 
-	//createAxis();
+	createAxis();
 
-	particle = new Particle(Vector3D(0.0, 0.0, 0.0), Vector3D(10.0, 0.0, 0.0), Vector3D(10.0, 0.0, 0.0), 0.75);
+	proyectile = new Proyectile(Vector3D(0.0, 0.0, 0.0), Vector3D(0.0, 0.0, 0.0), Vector3D(10.0, 0.0, 0.0), 0.75, 1.0, -9.8, 0.5);
 }
 
 
@@ -135,15 +136,15 @@ void stepPhysics(bool interactive, double t)
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
-	particle->Integrate(t);
+	proyectile->Integrate(t);
 }
 
 // Function to clean data
 // Add custom code to the begining of the function
 void cleanupPhysics(bool interactive)
 {
-	//cleanupAxis();
-	particle->~Particle();
+	proyectile->~Proyectile();
+	cleanupAxis();
 
 
 	PX_UNUSED(interactive);
