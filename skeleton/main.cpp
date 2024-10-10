@@ -36,6 +36,8 @@ ContactReportCallback gContactReportCallback;
 
 std::vector<RenderItem*> renderItems;
 std::vector<Proyectile*> proyectiles;
+enum ProyectileType {Bullet, Fireball, Energy };
+ProyectileType currentProyectile = Bullet;
 
 void customVector3DTests() {
 	Vector3D patata(5.0, 0.0, 0.0);
@@ -88,12 +90,60 @@ void createAxis() {
 	renderItems.push_back(aux);
 }
 
-void ShootProyectile() {
+void ShootProyectile(ProyectileType type) {
 	Camera* cam = GetCamera();
 	Vector3D pos(cam->getTransform().p.x, cam->getTransform().p.y, cam->getTransform().p.z);
 	Vector3D dir(cam->getDir().x, cam->getDir().y, cam->getDir().z);
-	float speed = 50.0;
-	Proyectile* proyectile = new Proyectile(pos, dir * speed, Vector3D(0.0, 0.0, 0.0), 0.75, -9.8, 1.0, 0.5);
+
+	Vector3D a;
+	float speed, damping, gravity, mass, scalingFactor;
+	PxShape* shape;
+	Vector4 color;
+
+    switch (type)
+    {
+    case Bullet:
+		speed = 100.0;
+		a = Vector3D(0.0, 0.0, 0.0);
+		damping = 0.75;
+		gravity = -9.8;
+		mass = 1.0;
+		scalingFactor = 0.5;
+		shape = CreateShape(PxSphereGeometry(0.25));
+		color = { 0.75, 0.75, 0.0, 1.0 };
+		break;
+    case Fireball:
+		speed = 50.0;
+		a = Vector3D(0.0, 0.0, 0.0);
+		damping = 0.75;
+		gravity = -9.8;
+		mass = 10.0;
+		scalingFactor = 0.5;
+		shape = CreateShape(PxSphereGeometry(1.5));
+		color = { 1.0, 0.0, 0.0, 1.0 };
+		break;
+    case Energy:
+		speed = 75.0;
+		a = Vector3D(0.0, 0.0, 0.0);
+		damping = 0.75;
+		gravity = 9.8;
+		mass = 100.0;
+		scalingFactor = 0.5;
+		shape = CreateShape(PxBoxGeometry(0.5, 0.5, 0.5));
+		color = { 0.0, 0.5, 1.0, 1.0 };
+		break;
+    default: //no deberia pasar nunca pero nunca se sabe
+		speed = 10.0;
+		a = Vector3D(0.0, 0.0, 0.0);
+		damping = 0.75;
+		gravity = -9.8;
+		mass = 1.0;
+		scalingFactor = 0.5;
+		shape = CreateShape(PxSphereGeometry(1));
+		color = { 0.0, 0.0, 0.0, 0.0 }; 
+        break;
+    }
+	Proyectile* proyectile = new Proyectile(pos, dir * speed, a, damping, gravity, mass, scalingFactor, shape, color);
 	proyectiles.push_back(proyectile);
 }
 
@@ -183,7 +233,22 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	//case ' ':	break;
 	case 'Z':
 	{
-		ShootProyectile();
+		ShootProyectile(currentProyectile);
+		break;
+	}
+	case '1':
+	{
+		currentProyectile = Bullet;
+		break;
+	}
+	case '2':
+	{
+		currentProyectile = Fireball;
+		break;
+	}
+	case '3':
+	{
+		currentProyectile = Energy;
 		break;
 	}
 	default:

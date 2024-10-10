@@ -5,6 +5,13 @@ Proyectile::Proyectile(Vector3D pos, Vector3D vel, Vector3D a, float d, float gr
 	Scale();
 }
 
+Proyectile::Proyectile(Vector3D pos, Vector3D vel, Vector3D a, float d, float gravity, float mass, float scalingFactor,
+    PxShape* shape, const Vector4& color) : Particle(pos, vel, a, d, gravity, shape, color), mass(mass), scalingFactor(scalingFactor)
+{
+	Scale();
+}
+
+
 Proyectile::~Proyectile()
 {
 	
