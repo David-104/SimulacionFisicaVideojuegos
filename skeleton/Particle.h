@@ -6,14 +6,15 @@ using namespace physx;
 class Particle
 {
 public:
-	Particle(Vector3D pos, Vector3D vel, Vector3D a, float d);
+	Particle(Vector3D pos, Vector3D vel, Vector3D a, float d, float gravity);
 	~Particle();
 
 	void Integrate(double t);
-private:
+protected:
 	Vector3D vel;
 	Vector3D a;
 	float d;
+	float gravity;
 	PxTransform* pose;
 	RenderItem* renderItem;
 };

@@ -123,7 +123,7 @@ void initPhysics(bool interactive)
 
 	createAxis();
 
-	proyectile = new Proyectile(Vector3D(0.0, 0.0, 0.0), Vector3D(0.0, 0.0, 0.0), Vector3D(10.0, 0.0, 0.0), 0.75, 1.0, -9.8, 0.5);
+	proyectile = new Proyectile(Vector3D(0.0, 0.0, 0.0), Vector3D(50.0, 0.0, 0.0), Vector3D(0.0, 0.0, 0.0), 0.75, -9.8, 1.0, 0.5);
 }
 
 
