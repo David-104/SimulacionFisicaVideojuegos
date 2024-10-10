@@ -34,12 +34,8 @@ PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
-
-RenderItem* center = nullptr;
-RenderItem* xAxis = nullptr;
-RenderItem* yAxys = nullptr;
-RenderItem* zAxis = nullptr;
-Proyectile* proyectile = nullptr;
+std::vector<RenderItem*> renderItems;
+std::vector<Proyectile*> proyectiles;
 
 void customVector3DTests() {
 	Vector3D patata(5.0, 0.0, 0.0);
@@ -70,29 +66,35 @@ void customVector3DTests() {
 void createAxis() {
 	PxShape* shape = CreateShape(PxSphereGeometry(1));
 
+	RenderItem* aux;
 	Vector3D position1(0.0, 0.0, 0.0);
 	PxTransform* tr1 = new PxTransform(PxVec3(position1.x, position1.y, position1.z));
-	center = new RenderItem(shape, tr1, PxVec4(1.0, 1.0, 1.0, 1.0));
+	aux = new RenderItem(shape, tr1, PxVec4(1.0, 1.0, 1.0, 1.0));
+	renderItems.push_back(aux);
 
 	Vector3D position2(10.0, 0.0, 0.0);
 	PxTransform* tr2 = new PxTransform(PxVec3(position2.x, position2.y, position2.z));
-	xAxis = new RenderItem(shape, tr2, PxVec4(1.0, 0.0, 0.0, 1.0));
+	aux = new RenderItem(shape, tr2, PxVec4(1.0, 0.0, 0.0, 1.0));
+	renderItems.push_back(aux);
 
 	Vector3D position3(0.0, 10.0, 0.0);
 	PxTransform* tr3 = new PxTransform(PxVec3(position3.x, position3.y, position3.z));
-
-	yAxys = new RenderItem(shape, tr3, PxVec4(0.0, 1.0, 0.0, 1.0));
+	aux = new RenderItem(shape, tr3, PxVec4(0.0, 1.0, 0.0, 1.0));
+	renderItems.push_back(aux);
 
 	Vector3D position4(0.0, 0.0, 10.0);
 	PxTransform* tr4 = new PxTransform(PxVec3(position4.x, position4.y, position4.z));
-	zAxis = new RenderItem(shape, tr4, PxVec4(0.0, 0.0, 1.0, 1.0));
+	aux = new RenderItem(shape, tr4, PxVec4(0.0, 0.0, 1.0, 1.0));
+	renderItems.push_back(aux);
 }
 
-void cleanupAxis() {
-	DeregisterRenderItem(center);
-	DeregisterRenderItem(xAxis);
-	DeregisterRenderItem(yAxys);
-	DeregisterRenderItem(zAxis);
+void ShootProyectile() {
+	Camera* cam = GetCamera();
+	Vector3D pos(cam->getTransform().p.x, cam->getTransform().p.y, cam->getTransform().p.z);
+	Vector3D dir(cam->getDir().x, cam->getDir().y, cam->getDir().z);
+	float speed = 50.0;
+	Proyectile* proyectile = new Proyectile(pos, dir * speed, Vector3D(0.0, 0.0, 0.0), 0.75, -9.8, 1.0, 0.5);
+	proyectiles.push_back(proyectile);
 }
 
 // Initialize physics engine
@@ -122,8 +124,6 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 
 	createAxis();
-
-	proyectile = new Proyectile(Vector3D(0.0, 0.0, 0.0), Vector3D(50.0, 0.0, 0.0), Vector3D(0.0, 0.0, 0.0), 0.75, -9.8, 1.0, 0.5);
 }
 
 
@@ -136,15 +136,26 @@ void stepPhysics(bool interactive, double t)
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
-	proyectile->Integrate(t);
+	for each (Proyectile* proyectile in proyectiles)
+	{
+		proyectile->Integrate(t);
+	}
 }
 
 // Function to clean data
 // Add custom code to the begining of the function
 void cleanupPhysics(bool interactive)
 {
-	proyectile->~Proyectile();
-	cleanupAxis();
+
+	for each (Proyectile * proyectile in proyectiles)
+	{
+		proyectile->~Proyectile();
+	}
+
+	for each (RenderItem* renderItem in renderItems)
+	{
+		DeregisterRenderItem(renderItem);
+	}
 
 
 	PX_UNUSED(interactive);
@@ -170,8 +181,9 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	{
 	//case 'B': break;
 	//case ' ':	break;
-	case ' ':
+	case 'Z':
 	{
+		ShootProyectile();
 		break;
 	}
 	default:
@@ -184,7 +196,6 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 	PX_UNUSED(actor1);
 	PX_UNUSED(actor2);
 }
-
 
 int main(int, const char*const*)
 {
