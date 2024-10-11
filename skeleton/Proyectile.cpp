@@ -18,7 +18,10 @@ Proyectile::~Proyectile()
 }
 
 void Proyectile::Scale() {
-	vel = vel * scalingFactor;
-	mass = mass / scalingFactor;
-	gravity = gravity * scalingFactor;
+	Vector3D newVel = vel * scalingFactor;
+	float ogSpeed = vel.Module();
+	float newSpeed = newVel.Module();
+
+	mass = mass * pow(ogSpeed, 2) / pow(newSpeed, 2);
+	vel = newVel;
 }
