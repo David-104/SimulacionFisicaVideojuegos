@@ -13,6 +13,7 @@
 #include "Vector3D.h"
 #include "Particle.h"
 #include "Proyectile.h"
+#include "ParticleSystem.h"
 
 std::string display_text = "This is a test";
 
@@ -38,6 +39,9 @@ std::vector<RenderItem*> renderItems;
 std::vector<Proyectile*> proyectiles;
 enum ProyectileType {Bullet, Fireball, Energy };
 ProyectileType currentProyectile = Bullet;
+
+ParticleSystem* PS = nullptr;
+
 
 void customVector3DTests() {
 	Vector3D patata(5.0, 0.0, 0.0);
@@ -174,6 +178,8 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 
 	createAxis();
+
+	PS = new ParticleSystem(100, Vector3(0, 0, 0));
 }
 
 
@@ -190,6 +196,8 @@ void stepPhysics(bool interactive, double t)
 	{
 		proyectile->Integrate(t);
 	}
+
+	PS->Update(t);
 }
 
 // Function to clean data
