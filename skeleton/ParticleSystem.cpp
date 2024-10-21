@@ -10,6 +10,7 @@ ParticleSystem::~ParticleSystem()
 
 void ParticleSystem::Update(double t)
 {
+	//sustituir todo este rollo por actualizar la lista de generadores
 	if (particles.size() < MAX_PARTICLE_NUM) {
 		Particle* particle = new Particle(Vector3D(pos.x, pos.y, pos.z), Vector3D(0, 10, 0), Vector3D(0, 0, 0), 0.75, -9.8);
 		ParticleData newParticleTest;
