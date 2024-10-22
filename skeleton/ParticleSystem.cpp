@@ -1,27 +1,42 @@
 #include "ParticleSystem.h"
+#include "ParticleGenerator.h"
 
 ParticleSystem::ParticleSystem(float particleLife = 10, Vector3 pos = {0, 0, 0}) : particleLife(particleLife), pos(pos)
 {
+	ParticleGenerator* pg = new ParticleGenerator(this);
+	generators.push_back(pg);
 }
 
 ParticleSystem::~ParticleSystem()
 {
+	for each (ParticleData data in particles)
+	{
+		data.particle->~Particle();
+	}
+
+	for each (ParticleGenerator* gen in generators)
+	{
+		gen->~ParticleGenerator();
+	}
 }
 
 void ParticleSystem::Update(double t)
 {
-	//sustituir todo este rollo por actualizar la lista de generadores
 	if (particles.size() < MAX_PARTICLE_NUM) {
-		Particle* particle = new Particle(Vector3D(pos.x, pos.y, pos.z), Vector3D(0, 10, 0), Vector3D(0, 0, 0), 0.75, -9.8);
-		ParticleData newParticleTest;
-		newParticleTest.particle = particle;
-		newParticleTest.life = 0;
-		particles.push_back(newParticleTest);
+		updateGenerators(t);
 	}
 
 	updateParticles(t);
 
 	std::cout << particles.size() << std::endl;
+}
+
+void ParticleSystem::addParticle(Particle* particle)
+{
+	ParticleData particleData;
+	particleData.particle = particle;
+	particleData.life = 0;
+	particles.push_back(particleData);
 }
 
 void ParticleSystem::updateParticles(double t)
@@ -35,11 +50,23 @@ void ParticleSystem::updateParticles(double t)
 			particlesToErase.push_back(it);
 	}
 
+	removeParticles();
+}
+
+void ParticleSystem::updateGenerators(double t)
+{
+	for each (ParticleGenerator* pg in generators)
+	{
+		pg->Update(t);
+	}
+}
+
+void ParticleSystem::removeParticles()
+{
 	for each (std::list<ParticleData>::iterator it in particlesToErase)
 	{
 		it->particle->~Particle();
 		particles.erase(it);
 	}
-
 	particlesToErase.clear();
 }
