@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-#include "Vector3D.h"
+//#include "Vector3D.h"
 #include "Particle.h"
 #include "Proyectile.h"
 #include "ParticleSystem.h"
@@ -43,7 +43,7 @@ ProyectileType currentProyectile = Bullet;
 ParticleSystem* PS = nullptr;
 
 
-void customVector3DTests() {
+/*void customVector3DTests() {
 	Vector3D patata(5.0, 0.0, 0.0);
 	cout << patata << endl;
 
@@ -67,28 +67,28 @@ void customVector3DTests() {
 	cout << (tomate == patata) << " ";
 	tomate = patata;
 	cout << (tomate == patata);
-}
+}*/
 
 void createAxis() {
 	PxShape* shape = CreateShape(PxSphereGeometry(1));
 
 	RenderItem* aux;
-	Vector3D position1(0.0, 0.0, 0.0);
+	Vector3 position1(0.0, 0.0, 0.0);
 	PxTransform* tr1 = new PxTransform(PxVec3(position1.x, position1.y, position1.z));
 	aux = new RenderItem(shape, tr1, PxVec4(1.0, 1.0, 1.0, 1.0));
 	renderItems.push_back(aux);
 
-	Vector3D position2(10.0, 0.0, 0.0);
+	Vector3 position2(10.0, 0.0, 0.0);
 	PxTransform* tr2 = new PxTransform(PxVec3(position2.x, position2.y, position2.z));
 	aux = new RenderItem(shape, tr2, PxVec4(1.0, 0.0, 0.0, 1.0));
 	renderItems.push_back(aux);
 
-	Vector3D position3(0.0, 10.0, 0.0);
+	Vector3 position3(0.0, 10.0, 0.0);
 	PxTransform* tr3 = new PxTransform(PxVec3(position3.x, position3.y, position3.z));
 	aux = new RenderItem(shape, tr3, PxVec4(0.0, 1.0, 0.0, 1.0));
 	renderItems.push_back(aux);
 
-	Vector3D position4(0.0, 0.0, 10.0);
+	Vector3 position4(0.0, 0.0, 10.0);
 	PxTransform* tr4 = new PxTransform(PxVec3(position4.x, position4.y, position4.z));
 	aux = new RenderItem(shape, tr4, PxVec4(0.0, 0.0, 1.0, 1.0));
 	renderItems.push_back(aux);
@@ -96,10 +96,10 @@ void createAxis() {
 
 void ShootProyectile(ProyectileType type) {
 	Camera* cam = GetCamera();
-	Vector3D pos(cam->getTransform().p.x, cam->getTransform().p.y, cam->getTransform().p.z);
-	Vector3D dir(cam->getDir().x, cam->getDir().y, cam->getDir().z);
+	Vector3 pos(cam->getTransform().p.x, cam->getTransform().p.y, cam->getTransform().p.z);
+	Vector3 dir(cam->getDir().x, cam->getDir().y, cam->getDir().z);
 
-	Vector3D a;
+	Vector3 a;
 	float speed, damping, gravity, mass, scalingFactor;
 	PxShape* shape;
 	Vector4 color;
@@ -108,7 +108,7 @@ void ShootProyectile(ProyectileType type) {
     {
     case Bullet:
 		speed = 100.0;
-		a = Vector3D(0.0, 0.0, 0.0);
+		a = Vector3(0.0, 0.0, 0.0);
 		damping = 0.75;
 		gravity = -9.8;
 		mass = 1.0;
@@ -118,7 +118,7 @@ void ShootProyectile(ProyectileType type) {
 		break;
     case Fireball:
 		speed = 50.0;
-		a = Vector3D(0.0, 0.0, 0.0);
+		a = Vector3(0.0, 0.0, 0.0);
 		damping = 0.75;
 		gravity = -9.8;
 		mass = 10.0;
@@ -128,7 +128,7 @@ void ShootProyectile(ProyectileType type) {
 		break;
     case Energy:
 		speed = 75.0;
-		a = Vector3D(0.0, 0.0, 0.0);
+		a = Vector3(0.0, 0.0, 0.0);
 		damping = 0.75;
 		gravity = 9.8;
 		mass = 100.0;
@@ -138,7 +138,7 @@ void ShootProyectile(ProyectileType type) {
 		break;
     default: //no deberia pasar nunca pero nunca se sabe
 		speed = 10.0;
-		a = Vector3D(0.0, 0.0, 0.0);
+		a = Vector3(0.0, 0.0, 0.0);
 		damping = 0.75;
 		gravity = -9.8;
 		mass = 1.0;

@@ -28,7 +28,7 @@ void ParticleSystem::Update(double t)
 
 	updateParticles(t);
 
-	std::cout << particles.size() << std::endl;
+	//std::cout << particles.size() << std::endl;
 }
 
 void ParticleSystem::addParticle(Particle* particle)
