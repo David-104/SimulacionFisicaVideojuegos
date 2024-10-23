@@ -9,6 +9,7 @@ public:
 	void Update(double t);
 private:
 	ParticleSystem* particleSys;
+	//Particle* modelParticle;
 	float meanPos;
 	float meanVel;
 };

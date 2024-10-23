@@ -74,30 +74,30 @@ void createAxis() {
 
 	RenderItem* aux;
 	Vector3 position1(0.0, 0.0, 0.0);
-	PxTransform* tr1 = new PxTransform(PxVec3(position1.x, position1.y, position1.z));
+	PxTransform* tr1 = new PxTransform(position1);
 	aux = new RenderItem(shape, tr1, PxVec4(1.0, 1.0, 1.0, 1.0));
 	renderItems.push_back(aux);
 
 	Vector3 position2(10.0, 0.0, 0.0);
-	PxTransform* tr2 = new PxTransform(PxVec3(position2.x, position2.y, position2.z));
+	PxTransform* tr2 = new PxTransform(position2);
 	aux = new RenderItem(shape, tr2, PxVec4(1.0, 0.0, 0.0, 1.0));
 	renderItems.push_back(aux);
 
 	Vector3 position3(0.0, 10.0, 0.0);
-	PxTransform* tr3 = new PxTransform(PxVec3(position3.x, position3.y, position3.z));
+	PxTransform* tr3 = new PxTransform(position3);
 	aux = new RenderItem(shape, tr3, PxVec4(0.0, 1.0, 0.0, 1.0));
 	renderItems.push_back(aux);
 
 	Vector3 position4(0.0, 0.0, 10.0);
-	PxTransform* tr4 = new PxTransform(PxVec3(position4.x, position4.y, position4.z));
+	PxTransform* tr4 = new PxTransform(position4);
 	aux = new RenderItem(shape, tr4, PxVec4(0.0, 0.0, 1.0, 1.0));
 	renderItems.push_back(aux);
 }
 
 void ShootProyectile(ProyectileType type) {
 	Camera* cam = GetCamera();
-	Vector3 pos(cam->getTransform().p.x, cam->getTransform().p.y, cam->getTransform().p.z);
-	Vector3 dir(cam->getDir().x, cam->getDir().y, cam->getDir().z);
+	Vector3 pos = cam->getTransform().p;
+	Vector3 dir = cam->getDir();
 
 	Vector3 a;
 	float speed, damping, gravity, mass, scalingFactor;

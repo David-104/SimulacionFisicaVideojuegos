@@ -1,5 +1,6 @@
 #include "ParticleSystem.h"
 #include "ParticleGenerator.h"
+#include <iostream>
 
 ParticleSystem::ParticleSystem(float particleLife = 10, Vector3 pos = {0, 0, 0}) : particleLife(particleLife), pos(pos)
 {
@@ -31,12 +32,13 @@ void ParticleSystem::Update(double t)
 	//std::cout << particles.size() << std::endl;
 }
 
-void ParticleSystem::addParticle(Particle* particle)
+void ParticleSystem::addParticle(Particle* p)
 {
+	/*Particle* particle = p;
 	ParticleData particleData;
 	particleData.particle = particle;
 	particleData.life = 0;
-	particles.push_back(particleData);
+	particles.push_back(particleData);*/
 }
 
 void ParticleSystem::updateParticles(double t)
