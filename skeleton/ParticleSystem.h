@@ -12,6 +12,7 @@ public:
 	inline Vector3 getPos() { return pos; }
 private:
 	float const MAX_PARTICLE_NUM = 100;
+	float const MAX_PARTICLE_DIST = 100;
 	float particleLife;
 	Vector3 pos; 
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "ParticleSystem.h"
 #include "Particle.h"
+
 class ParticleGenerator
 {
 public:
@@ -8,6 +9,7 @@ public:
 	~ParticleGenerator();
 	void Update(double t);
 private:
+	Particle createParticle();
 	ParticleSystem* particleSys;
 	//Particle* modelParticle;
 	float meanPos;

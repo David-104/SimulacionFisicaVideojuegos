@@ -11,6 +11,7 @@ public:
 	~Particle();
 
 	void Integrate(double t);
+	inline PxTransform* getTransform() { return pose; }
 protected:
 	Vector3 vel;
 	Vector3 a;

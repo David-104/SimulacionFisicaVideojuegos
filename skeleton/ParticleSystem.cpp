@@ -32,19 +32,19 @@ void ParticleSystem::Update(double t)
 	//std::cout << particles.size() << std::endl;
 }
 
-void ParticleSystem::addParticle(Particle* p)
+void ParticleSystem::addParticle(Particle* particle)
 {
-	/*Particle* particle = p;
 	ParticleData particleData;
 	particleData.particle = particle;
 	particleData.life = 0;
-	particles.push_back(particleData);*/
+	particles.push_back(particleData);
 }
 
 void ParticleSystem::updateParticles(double t)
 {
 	for (std::list<ParticleData>::iterator it = particles.begin(); it != particles.end(); it++) {
-		if (it->life < particleLife) {
+		float dist = Vector3(it->particle->getTransform()->p - pos).magnitude();
+		if (it->life < particleLife && dist < MAX_PARTICLE_DIST) {
 			it->particle->Integrate(t);
 			it->life++;
 		}
