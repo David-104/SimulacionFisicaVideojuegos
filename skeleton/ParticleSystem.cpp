@@ -1,10 +1,10 @@
 #include "ParticleSystem.h"
-#include "ParticleGenerator.h"
+#include "UniformGenerator.h"
 #include <iostream>
 
 ParticleSystem::ParticleSystem(float particleLife = 10, Vector3 pos = {0, 0, 0}) : particleLife(particleLife), pos(pos)
 {
-	ParticleGenerator* pg = new ParticleGenerator(this);
+	UniformGenerator* pg = new UniformGenerator(this);
 	generators.push_back(pg);
 }
 
@@ -12,12 +12,12 @@ ParticleSystem::~ParticleSystem()
 {
 	for each (ParticleData data in particles)
 	{
-		data.particle->~Particle();
+		delete data.particle;
 	}
 
 	for each (ParticleGenerator* gen in generators)
 	{
-		gen->~ParticleGenerator();
+		delete gen;
 	}
 }
 
