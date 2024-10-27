@@ -37,10 +37,9 @@ ContactReportCallback gContactReportCallback;
 
 std::vector<RenderItem*> renderItems;
 std::vector<Proyectile*> proyectiles;
+std::vector<ParticleSystem*> particleSystems;
 enum ProyectileType {Bullet, Fireball, Energy };
 ProyectileType currentProyectile = Bullet;
-
-ParticleSystem* PS = nullptr;
 
 
 /*void customVector3DTests() {
@@ -179,10 +178,12 @@ void initPhysics(bool interactive)
 
 	createAxis();
 
-	PS = new ParticleSystem(100, Vector3(0, 0, 0));
+	particleSystems.push_back(new ParticleSystem(100, Vector3(0, 0, 0), ParticleSystem::GeneratorType::GAUSSIAN, Vector3(0.0, 1.0, 0.0), Vector3(10.0, 0.0, 10.0)));
+	particleSystems.push_back(new ParticleSystem(100, Vector3(0, 0, 0), ParticleSystem::GeneratorType::GAUSSIAN, Vector3(10.0, 1.0, 0.1), Vector3(0.0, 0.0, 0.0)));
+	particleSystems.push_back(new ParticleSystem(100, Vector3(0, 0, 0), ParticleSystem::GeneratorType::UNIFORM, Vector3(10.0, 10.0, 10.0), Vector3(0.0, 0.0, 0.0)));
 }
 
-
+    
 // Function to configure what happens in each step of physics
 // interactive: true if the game is rendering, false if it offline
 // t: time passed since last call in milliseconds
@@ -197,7 +198,10 @@ void stepPhysics(bool interactive, double t)
 		proyectile->Integrate(t);
 	}
 
-	PS->Update(t);
+    for each (ParticleSystem* ps in particleSystems)
+    {
+        ps->Update(t);
+    }
 }
 
 // Function to clean data

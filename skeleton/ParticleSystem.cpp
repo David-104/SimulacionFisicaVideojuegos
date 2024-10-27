@@ -1,11 +1,24 @@
 #include "ParticleSystem.h"
 #include "UniformGenerator.h"
+#include "GaussianGenerator.h"
 #include <iostream>
 
-ParticleSystem::ParticleSystem(float particleLife = 10, Vector3 pos = {0, 0, 0}) : particleLife(particleLife), pos(pos)
+ParticleSystem::ParticleSystem(float particleLife = 10, Vector3 pos = {0, 0, 0}, GeneratorType type = UNIFORM, Vector3 meanVel = Vector3(0.0, 1.0, 0.0), Vector3 meanPos = Vector3(0.0, 0.0, 0.0)) : particleLife(particleLife), pos(pos)
 {
-	UniformGenerator* pg = new UniformGenerator(this);
-	generators.push_back(pg);
+	ParticleGenerator* pg;
+    switch (type)
+    {
+    case UNIFORM:
+		pg = new UniformGenerator(this, meanVel, meanPos);
+		break;
+    case GAUSSIAN:
+		pg = new GaussianGenerator(this, 5.0, meanVel, meanPos);
+		break;
+    default:
+		pg = new UniformGenerator(this, meanVel, meanPos);
+		break;
+    }
+    generators.push_back(pg);
 }
 
 ParticleSystem::~ParticleSystem()

@@ -16,6 +16,7 @@
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="ParticleGenerator.cpp" />
     <ClCompile Include="UniformGenerator.cpp" />
+    <ClCompile Include="GaussianGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -33,6 +34,7 @@
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="ParticleGenerator.h" />
     <ClInclude Include="UniformGenerator.h" />
+    <ClInclude Include="GaussianGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

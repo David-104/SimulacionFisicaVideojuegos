@@ -1,7 +1,7 @@
 #include "UniformGenerator.h"
 #include <iostream>
 
-UniformGenerator::UniformGenerator(ParticleSystem* ps) : ParticleGenerator(ps)
+UniformGenerator::UniformGenerator(ParticleSystem* ps, Vector3 meanVel, Vector3 meanPos) : ParticleGenerator(ps, meanVel, meanPos)
 {
 	gen = std::mt19937(rd());
 	distribution = std::uniform_real_distribution<>(-1.0, 1.0);

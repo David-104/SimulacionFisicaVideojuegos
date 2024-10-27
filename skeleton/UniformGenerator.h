@@ -5,7 +5,7 @@
 class UniformGenerator : public ParticleGenerator
 {
 public:
-	UniformGenerator(ParticleSystem* ps);
+	UniformGenerator(ParticleSystem* ps, Vector3 meanVel, Vector3 meanPos);
 	~UniformGenerator();
 private:
 

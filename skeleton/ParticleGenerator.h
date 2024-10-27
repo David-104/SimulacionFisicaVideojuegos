@@ -5,7 +5,7 @@
 class ParticleGenerator
 {
 public:
-	ParticleGenerator(ParticleSystem* ps);
+	ParticleGenerator(ParticleSystem* ps, Vector3 meanVel, Vector3 meanPos);
 	~ParticleGenerator();
 	void Update(double t);
 protected:
