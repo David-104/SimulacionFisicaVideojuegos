@@ -19,6 +19,12 @@ ParticleSystem::ParticleSystem(float particleLife = 10, Vector3 pos = {0, 0, 0},
 		break;
     }
     generators.push_back(pg);
+
+	modelParticle.acceleration = Vector3(0.0, 0.0, 0.0);
+	modelParticle.gravity = -9.8;
+	modelParticle.damping = 1.0;
+	modelParticle.shape = CreateShape(PxSphereGeometry(1));
+	modelParticle.color = Vector4(1.0, 1.0, 1.0, 1.0);
 }
 
 ParticleSystem::~ParticleSystem()
@@ -51,6 +57,11 @@ void ParticleSystem::addParticle(Particle* particle)
 	particleData.particle = particle;
 	particleData.life = 0;
 	particles.push_back(particleData);
+}
+
+void ParticleSystem::setModelParticle(ModelParticleData mp)
+{
+	modelParticle = mp;
 }
 
 void ParticleSystem::updateParticles(double t)

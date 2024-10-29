@@ -18,5 +18,7 @@ Particle* UniformGenerator::createParticle()
 
 	Vector3 vel = Vector3(meanVel.x * distribution(gen), meanVel.y * distribution(gen), meanVel.z * distribution(gen));
 
+	ParticleSystem::ModelParticleData modelParticle = particleSys->getModelParticle();
+
 	return new Particle(pos, vel, modelParticle.acceleration, modelParticle.damping, modelParticle.gravity, modelParticle.shape, modelParticle.color);
 }
