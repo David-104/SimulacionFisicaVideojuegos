@@ -14,6 +14,7 @@ public:
 	
 	inline PxTransform* getTransform() { return pose; }
 	inline float getMass() { return mass; }
+	inline Vector3 getVel() { return vel; }
 	void Integrate(double t);
 	void applyForce(Vector3 force);
 protected:
