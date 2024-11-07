@@ -20,5 +20,5 @@ Particle* UniformGenerator::createParticle()
 
 	ParticleSystem::ModelParticleData modelParticle = particleSys->getModelParticle();
 
-	return new Particle(pos, vel, modelParticle.acceleration, modelParticle.damping, modelParticle.gravity, modelParticle.shape, modelParticle.color);
+	return new Particle(pos, vel, modelParticle.acceleration, modelParticle.damping, modelParticle.gravity, modelParticle.shape, modelParticle.color, modelParticle.mass);
 }

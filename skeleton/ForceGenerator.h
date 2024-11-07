@@ -5,8 +5,10 @@
 class ForceGenerator
 {
 public:
-    ForceGenerator() {};
-    ~ForceGenerator() {};
-    virtual void UpdateForce(Particle* p) { };
+    ForceGenerator() = default;
+    virtual ~ForceGenerator() = default;
+    virtual void UpdateForce(Particle* p) { }
+protected:
+    Vector3 force;    
 };
 

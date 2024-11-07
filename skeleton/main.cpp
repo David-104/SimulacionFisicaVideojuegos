@@ -14,6 +14,7 @@
 #include "Particle.h"
 #include "Proyectile.h"
 #include "ParticleSystem.h"
+#include "GravityForceGenerator.h"
 
 std::string display_text = "This is a test";
 
@@ -180,7 +181,7 @@ void initPhysics(bool interactive)
 
 	//manera super sucia de los diferentes sistemas pero bueno
 
-	//sistema de "niebla"
+	/*//sistema de "niebla"
 	particleSystems.push_back(new ParticleSystem(100, Vector3(0, 0, 0), ParticleSystem::GeneratorType::GAUSSIAN, Vector3(0.0, 1.0, 0.0), Vector3(10.0, 0.0, 10.0)));
 	ParticleSystem::ModelParticleData model;
 	model.acceleration = Vector3(0.0, 0.0, 0.0);
@@ -200,7 +201,21 @@ void initPhysics(bool interactive)
 	particleSystems.push_back(new ParticleSystem(100, Vector3(0, 0, 0), ParticleSystem::GeneratorType::UNIFORM, Vector3(10.0, 10.0, 10.0), Vector3(0.0, 0.0, 0.0)));
 	model.shape = CreateShape(PxSphereGeometry(1));
 	model.color = Vector4(1.0, 0.0, 0.0, 1.0);
-	particleSystems[2]->setModelParticle(model);
+	particleSystems[2]->setModelParticle(model);*/
+
+	ParticleSystem::ModelParticleData model;
+	model.acceleration = Vector3(0.0, 0.0, 0.0);
+	model.gravity = 0.0;
+	model.damping = 1.0;
+	model.shape = CreateShape(PxSphereGeometry(1));
+	model.color = Vector4(0.0, 0.75, 0.75, 1.0);
+	model.mass = 0.1;
+	particleSystems.push_back(new ParticleSystem(100, Vector3(0, 0, 0), ParticleSystem::GeneratorType::GAUSSIAN, Vector3(10.0, 1.0, 0.1), Vector3(0.0, 0.0, 0.0)));
+	particleSystems[0]->setModelParticle(model);
+
+	GravityForceGenerator* fg = new GravityForceGenerator(-9.8);
+	particleSystems[0]->AddForceGenerator(fg);
+
 }
 
     

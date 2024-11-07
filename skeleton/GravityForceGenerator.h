@@ -4,9 +4,7 @@ class GravityForceGenerator : public ForceGenerator
 {
 public:
     GravityForceGenerator(float gAccel);
-    ~GravityForceGenerator();
+    ~GravityForceGenerator() override;
     void UpdateForce(Particle* p) override;
-private:
-    Vector3 acceleration;
 };
 

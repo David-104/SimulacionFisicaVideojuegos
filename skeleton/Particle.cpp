@@ -27,6 +27,12 @@ Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a, float d, float g, PxShap
 	renderItem = new RenderItem(shape, pose, color);
 }
 
+Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a, float d, float gravity, PxShape* shape, const Vector4& color, float mass) : vel(vel), a(a), d(d), gravity(gravity), mass(mass)
+{
+	pose = new PxTransform(pos);
+	renderItem = new RenderItem(shape, pose, color);
+}
+
 Particle::~Particle()
 {
 	DeregisterRenderItem(renderItem);
@@ -45,7 +51,12 @@ void Particle::Integrate(double t)
 		pose->p = pose->p + vel * t;
 	case VERLET:
 		break;
-	default:
-		break;
 	}
+
+	a = Vector3(0.0, 0.0, 0.0);
+}
+
+void Particle::applyForce(Vector3 force)
+{
+	a = force / mass;
 }

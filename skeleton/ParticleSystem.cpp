@@ -14,9 +14,6 @@ ParticleSystem::ParticleSystem(float particleLife = 10, Vector3 pos = {0, 0, 0},
     case GAUSSIAN:
 		pg = new GaussianGenerator(this, 5.0, meanVel, meanPos);
 		break;
-    default:
-		pg = new UniformGenerator(this, meanVel, meanPos);
-		break;
     }
     generators.push_back(pg);
 
@@ -25,6 +22,7 @@ ParticleSystem::ParticleSystem(float particleLife = 10, Vector3 pos = {0, 0, 0},
 	modelParticle.damping = 1.0;
 	modelParticle.shape = CreateShape(PxSphereGeometry(1));
 	modelParticle.color = Vector4(1.0, 1.0, 1.0, 1.0);
+	modelParticle.mass = 1.0;
 }
 
 ParticleSystem::~ParticleSystem()
@@ -46,6 +44,9 @@ void ParticleSystem::Update(double t)
 		updateGenerators(t);
 	}
 
+	if (forceGenerators.size() > 0)
+		UpdateForceGenerators();
+
 	updateParticles(t);
 
 	//std::cout << particles.size() << std::endl;
@@ -62,6 +63,17 @@ void ParticleSystem::addParticle(Particle* particle)
 void ParticleSystem::setModelParticle(ModelParticleData mp)
 {
 	modelParticle = mp;
+}
+
+void ParticleSystem::UpdateForceGenerators()
+{
+    for each(ForceGenerator* fg in forceGenerators)
+    {
+		for each (ParticleData data in particles)
+		{
+			fg->UpdateForce(data.particle);
+		}
+    }
 }
 
 void ParticleSystem::updateParticles(double t)
