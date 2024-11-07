@@ -5,7 +5,7 @@ enum IntegrationModes { EULER, SEMI, VERLET };
 
 constexpr IntegrationModes INTEGRATION_MODE = EULER;
 
-Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a = Vector3(0, 0, 0), float d = 1, float g = 0) : vel(vel), a(a), d(d), gravity(g)
+Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a = Vector3(0, 0, 0), float d = 1, float g = 0) : vel(vel), a(a), d(d), gravity(g), forceApplied(Vector3(0))
 {
 	pose = new PxTransform(pos);
 
@@ -13,7 +13,7 @@ Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a = Vector3(0, 0, 0), float
 	renderItem = new RenderItem(shape, pose, Vector4(0.0, 0.0, 0.0, 1.0));
 }
 
-Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a, float d, float g, float mass) : vel(vel), a(a), d(d), gravity(g), mass(mass)
+Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a, float d, float g, float mass) : vel(vel), a(a), d(d), gravity(g), mass(mass), forceApplied(Vector3(0))
 {
 	pose = new PxTransform(pos);
 
@@ -21,13 +21,13 @@ Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a, float d, float g, float 
 	renderItem = new RenderItem(shape, pose, Vector4(0.0, 0.0, 0.0, 1.0));
 }
 
-Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a, float d, float g, PxShape* shape, const Vector4& color) : vel(vel), a(a), d(d), gravity(g)
+Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a, float d, float g, PxShape* shape, const Vector4& color) : vel(vel), a(a), d(d), gravity(g), forceApplied(Vector3(0))
 {
 	pose = new PxTransform(pos);
 	renderItem = new RenderItem(shape, pose, color);
 }
 
-Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a, float d, float gravity, PxShape* shape, const Vector4& color, float mass) : vel(vel), a(a), d(d), gravity(gravity), mass(mass)
+Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a, float d, float gravity, PxShape* shape, const Vector4& color, float mass) : vel(vel), a(a), d(d), gravity(gravity), mass(mass), forceApplied(Vector3(0))
 {
 	pose = new PxTransform(pos);
 	renderItem = new RenderItem(shape, pose, color);
@@ -40,6 +40,8 @@ Particle::~Particle()
 
 void Particle::Integrate(double t)
 {
+	a = forceApplied / mass;
+
 	switch (INTEGRATION_MODE)
 	{
 	case EULER:
@@ -53,10 +55,10 @@ void Particle::Integrate(double t)
 		break;
 	}
 
-	a = Vector3(0.0, 0.0, 0.0);
+	forceApplied = Vector3(0.0, 0.0, 0.0);
 }
 
 void Particle::applyForce(Vector3 force)
 {
-	a = force / mass;
+	forceApplied += force;
 }

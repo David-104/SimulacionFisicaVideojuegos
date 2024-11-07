@@ -213,8 +213,10 @@ void initPhysics(bool interactive)
 	particleSystems.push_back(new ParticleSystem(100, Vector3(0, 0, 0), ParticleSystem::GeneratorType::GAUSSIAN, Vector3(10.0, 1.0, 0.1), Vector3(0.0, 0.0, 0.0)));
 	particleSystems[0]->setModelParticle(model);
 
-	GravityForceGenerator* fg = new GravityForceGenerator(-9.8);
+	GravityForceGenerator* fg = new GravityForceGenerator(-10);
+	GravityForceGenerator* fg2 = new GravityForceGenerator(100);
 	particleSystems[0]->AddForceGenerator(fg);
+	particleSystems[0]->AddForceGenerator(fg2);
 
 }
 

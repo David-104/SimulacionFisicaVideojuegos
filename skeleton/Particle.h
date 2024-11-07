@@ -19,6 +19,7 @@ public:
 protected:
 	Vector3 vel;
 	Vector3 a;
+	Vector3 forceApplied;
 	float d;
 	float gravity;
 	float mass;
