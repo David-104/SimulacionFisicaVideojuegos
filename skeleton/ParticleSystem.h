@@ -26,8 +26,8 @@ public:
 	void UpdateForceGenerators();
 	inline void AddForceGenerator(ForceGenerator* fg) { forceGenerators.push_back(fg); }
 private:
-	float const MAX_PARTICLE_NUM = 100;
-	float const MAX_PARTICLE_DIST = 100;
+	float const MAX_PARTICLE_NUM = 10000;
+	float const MAX_PARTICLE_DIST = 1000;
 	float particleLife;
 	Vector3 pos; 
 	ModelParticleData modelParticle;

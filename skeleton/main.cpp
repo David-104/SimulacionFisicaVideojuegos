@@ -16,6 +16,7 @@
 #include "ParticleSystem.h"
 #include "GravityForceGenerator.h"
 #include "WindForceGenerator.h"
+#include "WhirlwindForceGenerator.h"
 
 std::string display_text = "This is a test";
 
@@ -211,7 +212,7 @@ void initPhysics(bool interactive)
 	model.shape = CreateShape(PxSphereGeometry(1));
 	model.color = Vector4(0.0, 0.75, 0.75, 1.0);
 	model.mass = 0.1;
-	particleSystems.push_back(new ParticleSystem(100, Vector3(0, 0, 0), ParticleSystem::GeneratorType::GAUSSIAN, Vector3(10.0, 1.0, 0.1), Vector3(0.0, 0.0, 0.0)));
+	particleSystems.push_back(new ParticleSystem(10000, Vector3(0, 0, 0), ParticleSystem::GeneratorType::GAUSSIAN, Vector3(10.0, 1.0, 0.1), Vector3(0.0, 0.0, 0.0)));
 	particleSystems[0]->setModelParticle(model);
 
 	/*GravityForceGenerator* fg = new GravityForceGenerator(-10);
@@ -219,8 +220,11 @@ void initPhysics(bool interactive)
 	particleSystems[0]->AddForceGenerator(fg);
 	particleSystems[0]->AddForceGenerator(fg2);*/
 
-	WindForceGenerator* wfg = new WindForceGenerator(Vector3(0.0, 0.0, -100.0), 0.0, 1.0, 0.0);
-	particleSystems[0]->AddForceGenerator(wfg);
+	/*WindForceGenerator* wfg = new WindForceGenerator(Vector3(0.0, 0.0, -100.0), 0.0, 1.0, 0.0);
+	particleSystems[0]->AddForceGenerator(wfg);*/
+
+	WhirlwindForceGenerator* torbellino = new WhirlwindForceGenerator(Vector3(0), 0.0, 1.0, 0.0, 1.0, 50.0);
+	particleSystems[0]->AddForceGenerator(torbellino);
 }
 
     
