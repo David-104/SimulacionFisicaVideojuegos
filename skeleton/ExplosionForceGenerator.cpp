@@ -2,7 +2,7 @@
 
 static const float e = 2.71828;
 
-ExplosionForceGenerator::ExplosionForceGenerator(Vector3 pos, float intensity, float radius, float duration) : ForceGenerator(), pos(pos), intensity(intensity), radius(radius), duration(duration)
+ExplosionForceGenerator::ExplosionForceGenerator(Vector3 pos, float intensity, float radius, float duration) : ForceGenerator(), pos(pos), intensity(intensity), radius(radius), duration(duration), time(0)
 {
 }
 

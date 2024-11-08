@@ -42,9 +42,9 @@ ContactReportCallback gContactReportCallback;
 std::vector<RenderItem*> renderItems;
 std::vector<Proyectile*> proyectiles;
 std::vector<ParticleSystem*> particleSystems;
+ExplosionForceGenerator* efg;
 enum ProyectileType {Bullet, Fireball, Energy };
-ProyectileType currentProyectile = Bullet;
-
+ProyectileType currentProyectile = Bullet;	
 
 /*void customVector3DTests() {
 	Vector3D patata(5.0, 0.0, 0.0);
@@ -196,7 +196,7 @@ void createWhirlwindForceGenerator() {
 	model.shape = CreateShape(PxSphereGeometry(1));
 	model.color = Vector4(0.0, 0.75, 0.75, 1.0);
 	model.mass = 0.1;
-	ParticleSystem* ps = new ParticleSystem(10000, Vector3(0, 0, 0), ParticleSystem::GeneratorType::GAUSSIAN, Vector3(10.0, 1.0, 0.1), Vector3(0.0, 0.0, 0.0));
+	ParticleSystem* ps = new ParticleSystem(10000, Vector3(0, 0, 0), ParticleSystem::GeneratorType::GAUSSIAN, Vector3(10.0, 1.0, 10.0), Vector3(0.0, 0.0, 0.0));
 	particleSystems.push_back(ps);
 	ps->setModelParticle(model);
 
@@ -212,11 +212,11 @@ void createExplosionForceGenerator() {
 	model.shape = CreateShape(PxSphereGeometry(1));
 	model.color = Vector4(1.0, 0.0, 0.0, 1.0);
 	model.mass = 0.1;
-	ParticleSystem* ps = new ParticleSystem(10000, Vector3(0, 0, 0), ParticleSystem::GeneratorType::UNIFORM, Vector3(1.0, 1.0, 1.0), Vector3(0.0, 0.0, 0.0));
+	ParticleSystem* ps = new ParticleSystem(10000, Vector3(0.1, 0, 0.1), ParticleSystem::GeneratorType::UNIFORM, Vector3(1.0, 1.0, 1.0), Vector3(0.0, 0.0, 0.0));
 	particleSystems.push_back(ps);
 	ps->setModelParticle(model);
 
-	ExplosionForceGenerator* efg = new ExplosionForceGenerator(Vector3(0), 100.0, 100.0, 5.0);
+	efg = new ExplosionForceGenerator(Vector3(0), 100.0, 500.0, 0.5);
 	ps->AddForceGenerator(efg);
 }
 
@@ -276,8 +276,8 @@ void initPhysics(bool interactive)
 
 	//createGravityForceGenerator();
 	//createWindForceGenerator();
-	createWhirlwindForceGenerator();
-	//createExplosionForceGenerator();
+	//createWhirlwindForceGenerator();
+	createExplosionForceGenerator();
 	
 }
 
@@ -344,6 +344,11 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case 'Z':
 	{
 		ShootProyectile(currentProyectile);
+		break;
+	}
+	case 'E':
+	{
+		efg->resetTime();
 		break;
 	}
 	case '1':
