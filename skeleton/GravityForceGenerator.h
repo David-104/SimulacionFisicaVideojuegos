@@ -5,6 +5,6 @@ class GravityForceGenerator : public ForceGenerator
 public:
     GravityForceGenerator(float gAccel);
     ~GravityForceGenerator() override;
-    void UpdateForce(Particle* p) override;
+    void UpdateForce(Particle* p, double t) override;
 };
 

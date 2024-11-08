@@ -9,7 +9,7 @@ GravityForceGenerator::~GravityForceGenerator()
 {
 }
 
-void GravityForceGenerator::UpdateForce(Particle* p)
+void GravityForceGenerator::UpdateForce(Particle* p, double t)
 {
     p->applyForce(force);
 }

@@ -5,7 +5,7 @@ class WindForceGenerator : public ForceGenerator
 public:
     WindForceGenerator(Vector3 windVel, float windCoef, float k1, float k2);
     ~WindForceGenerator() override;
-    void UpdateForce(Particle* p) override;
+    void UpdateForce(Particle* p, double t) override;
 protected:
     Vector3 windVel;
     float windCoef;

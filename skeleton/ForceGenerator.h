@@ -7,7 +7,7 @@ class ForceGenerator
 public:
     ForceGenerator() = default;
     virtual ~ForceGenerator() = default;
-    virtual void UpdateForce(Particle* p) { }
+    virtual void UpdateForce(Particle* p, double t) { }
 protected:
     Vector3 force;    
 };

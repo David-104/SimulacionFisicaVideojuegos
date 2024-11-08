@@ -40,12 +40,11 @@ ParticleSystem::~ParticleSystem()
 
 void ParticleSystem::Update(double t)
 {
-	if (particles.size() < MAX_PARTICLE_NUM) {
+	if (particles.size() < MAX_PARTICLE_NUM)
 		updateGenerators(t);
-	}
 
 	if (forceGenerators.size() > 0)
-		UpdateForceGenerators();
+		UpdateForceGenerators(t);
 
 	updateParticles(t);
 
@@ -65,13 +64,13 @@ void ParticleSystem::setModelParticle(ModelParticleData mp)
 	modelParticle = mp;
 }
 
-void ParticleSystem::UpdateForceGenerators()
+void ParticleSystem::UpdateForceGenerators(double t)
 {
     for each(ForceGenerator* fg in forceGenerators)
     {
 		for each (ParticleData data in particles)
 		{
-			fg->UpdateForce(data.particle);
+			fg->UpdateForce(data.particle, t);
 		}
     }
 }

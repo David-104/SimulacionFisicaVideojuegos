@@ -8,9 +8,9 @@ WhirlwindForceGenerator::~WhirlwindForceGenerator()
 {
 }
 
-void WhirlwindForceGenerator::UpdateForce(Particle* p)
+void WhirlwindForceGenerator::UpdateForce(Particle* p, double t)
 {
     Vector3 particlePos = p->getTransform()->p;
-    windVel = whirlwindForce * Vector3(-(particlePos.z - centre.z), height - (particlePos.y - centre.y), particlePos.x - centre.x);
-    WindForceGenerator::UpdateForce(p);
+    windVel = whirlwindForce * Vector3(-(particlePos.z - centre.z), height - (particlePos.y - centre.y), particlePos.x - centre.x).getNormalized();
+    WindForceGenerator::UpdateForce(p, t);
 }

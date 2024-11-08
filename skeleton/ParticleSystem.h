@@ -23,7 +23,7 @@ public:
 	inline Vector3 getPos() { return pos; }
 	inline ModelParticleData getModelParticle() { return modelParticle; }
 	void setModelParticle(ModelParticleData mp);
-	void UpdateForceGenerators();
+	void UpdateForceGenerators(double t);
 	inline void AddForceGenerator(ForceGenerator* fg) { forceGenerators.push_back(fg); }
 private:
 	float const MAX_PARTICLE_NUM = 10000;

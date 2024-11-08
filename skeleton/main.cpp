@@ -17,6 +17,7 @@
 #include "GravityForceGenerator.h"
 #include "WindForceGenerator.h"
 #include "WhirlwindForceGenerator.h"
+#include "ExplosionForceGenerator.h"
 
 std::string display_text = "This is a test";
 
@@ -153,6 +154,73 @@ void ShootProyectile(ProyectileType type) {
 	proyectiles.push_back(proyectile);
 }
 
+void createGravityForceGenerator() {
+	ParticleSystem::ModelParticleData model;
+	model.acceleration = Vector3(0.0, 0.0, 0.0);
+	model.gravity = 0.0;
+	model.damping = 1.0;
+	model.shape = CreateShape(PxSphereGeometry(1));
+	model.color = Vector4(0.0, 0.75, 0.75, 1.0);
+	model.mass = 0.1;
+	ParticleSystem* ps = new ParticleSystem(10000, Vector3(0, 0, 0), ParticleSystem::GeneratorType::GAUSSIAN, Vector3(10.0, 1.0, 0.1), Vector3(0.0, 0.0, 0.0));
+	particleSystems.push_back(ps);
+	ps->setModelParticle(model);
+
+	GravityForceGenerator* fg = new GravityForceGenerator(-10);
+	GravityForceGenerator* fg2 = new GravityForceGenerator(100);
+	ps->AddForceGenerator(fg);
+	ps->AddForceGenerator(fg2);
+}
+
+void createWindForceGenerator() {
+	ParticleSystem::ModelParticleData model;
+	model.acceleration = Vector3(0.0, 0.0, 0.0);
+	model.gravity = 0.0;
+	model.damping = 1.0;
+	model.shape = CreateShape(PxSphereGeometry(1));
+	model.color = Vector4(0.0, 0.75, 0.75, 1.0);
+	model.mass = 0.1;
+	ParticleSystem* ps = new ParticleSystem(10000, Vector3(0, 0, 0), ParticleSystem::GeneratorType::GAUSSIAN, Vector3(10.0, 1.0, 0.1), Vector3(0.0, 0.0, 0.0));
+	particleSystems.push_back(ps);
+	ps->setModelParticle(model);
+
+	WindForceGenerator* wfg = new WindForceGenerator(Vector3(0.0, 0.0, -100.0), 0.0, 1.0, 0.0);
+	ps->AddForceGenerator(wfg);
+}
+
+void createWhirlwindForceGenerator() {
+	ParticleSystem::ModelParticleData model;
+	model.acceleration = Vector3(0.0, 0.0, 0.0);
+	model.gravity = 0.0;
+	model.damping = 1.0;
+	model.shape = CreateShape(PxSphereGeometry(1));
+	model.color = Vector4(0.0, 0.75, 0.75, 1.0);
+	model.mass = 0.1;
+	ParticleSystem* ps = new ParticleSystem(10000, Vector3(0, 0, 0), ParticleSystem::GeneratorType::GAUSSIAN, Vector3(10.0, 1.0, 0.1), Vector3(0.0, 0.0, 0.0));
+	particleSystems.push_back(ps);
+	ps->setModelParticle(model);
+
+	WhirlwindForceGenerator* torbellino = new WhirlwindForceGenerator(Vector3(0), 0.0, 1.0, 0.0, 50.0, 50.0);
+	ps->AddForceGenerator(torbellino);
+}
+
+void createExplosionForceGenerator() {
+	ParticleSystem::ModelParticleData model;
+	model.acceleration = Vector3(0.0, 0.0, 0.0);
+	model.gravity = 0.0;
+	model.damping = 1.0;
+	model.shape = CreateShape(PxSphereGeometry(1));
+	model.color = Vector4(1.0, 0.0, 0.0, 1.0);
+	model.mass = 0.1;
+	ParticleSystem* ps = new ParticleSystem(10000, Vector3(0, 0, 0), ParticleSystem::GeneratorType::UNIFORM, Vector3(1.0, 1.0, 1.0), Vector3(0.0, 0.0, 0.0));
+	particleSystems.push_back(ps);
+	ps->setModelParticle(model);
+
+	ExplosionForceGenerator* efg = new ExplosionForceGenerator(Vector3(0), 100.0, 100.0, 5.0);
+	ps->AddForceGenerator(efg);
+}
+
+
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -205,26 +273,12 @@ void initPhysics(bool interactive)
 	model.color = Vector4(1.0, 0.0, 0.0, 1.0);
 	particleSystems[2]->setModelParticle(model);*/
 
-	ParticleSystem::ModelParticleData model;
-	model.acceleration = Vector3(0.0, 0.0, 0.0);
-	model.gravity = 0.0;
-	model.damping = 1.0;
-	model.shape = CreateShape(PxSphereGeometry(1));
-	model.color = Vector4(0.0, 0.75, 0.75, 1.0);
-	model.mass = 0.1;
-	particleSystems.push_back(new ParticleSystem(10000, Vector3(0, 0, 0), ParticleSystem::GeneratorType::GAUSSIAN, Vector3(10.0, 1.0, 0.1), Vector3(0.0, 0.0, 0.0)));
-	particleSystems[0]->setModelParticle(model);
 
-	/*GravityForceGenerator* fg = new GravityForceGenerator(-10);
-	GravityForceGenerator* fg2 = new GravityForceGenerator(100);
-	particleSystems[0]->AddForceGenerator(fg);
-	particleSystems[0]->AddForceGenerator(fg2);*/
-
-	/*WindForceGenerator* wfg = new WindForceGenerator(Vector3(0.0, 0.0, -100.0), 0.0, 1.0, 0.0);
-	particleSystems[0]->AddForceGenerator(wfg);*/
-
-	WhirlwindForceGenerator* torbellino = new WhirlwindForceGenerator(Vector3(0), 0.0, 1.0, 0.0, 1.0, 50.0);
-	particleSystems[0]->AddForceGenerator(torbellino);
+	//createGravityForceGenerator();
+	//createWindForceGenerator();
+	createWhirlwindForceGenerator();
+	//createExplosionForceGenerator();
+	
 }
 
     

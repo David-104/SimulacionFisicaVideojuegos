@@ -8,7 +8,7 @@ WindForceGenerator::~WindForceGenerator()
 {
 }
 
-void WindForceGenerator::UpdateForce(Particle* p)
+void WindForceGenerator::UpdateForce(Particle* p, double t)
 {
     Vector3 velDiff = windVel - p->getVel();
     force = k1 * velDiff + k2 * (velDiff).magnitude() * velDiff;
