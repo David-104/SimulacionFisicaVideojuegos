@@ -16,6 +16,7 @@ public:
 		Vector4 color;
 		float mass;
 	};
+	ParticleSystem(float particleLife, Vector3 pos);
 	ParticleSystem(float particleLife, Vector3 pos, GeneratorType type, Vector3 meanVel, Vector3 meanPos);
 	~ParticleSystem();
 	void Update(double t);
@@ -25,6 +26,9 @@ public:
 	void setModelParticle(ModelParticleData mp);
 	void UpdateForceGenerators(double t);
 	inline void AddForceGenerator(ForceGenerator* fg) { forceGenerators.push_back(fg); }
+
+	void createSpring1Demo();
+	void createSpring2Demo();
 private:
 	float const MAX_PARTICLE_NUM = 100;
 	float const MAX_PARTICLE_DIST = 1000;

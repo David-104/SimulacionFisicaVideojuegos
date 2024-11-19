@@ -18,6 +18,7 @@
 #include "WindForceGenerator.h"
 #include "WhirlwindForceGenerator.h"
 #include "ExplosionForceGenerator.h"
+#include "SpringForceGenerator.h"
 
 std::string display_text = "This is a test";
 
@@ -220,6 +221,27 @@ void createExplosionForceGenerator() {
 	ps->AddForceGenerator(efg);
 }
 
+void createSpring1Demo()
+{
+	Vector3 pos = Vector3(0, 10, 0);
+	ParticleSystem* ps = new ParticleSystem(-1, pos);
+	particleSystems.push_back(ps);
+	ps->createSpring1Demo();
+
+	PxShape* shape = CreateShape(PxBoxGeometry(1, 1, 1));
+	RenderItem* aux;
+	PxTransform* tr1 = new PxTransform(pos);
+	aux = new RenderItem(shape, tr1, PxVec4(0.0, 0.0, 0.0, 1.0));
+	renderItems.push_back(aux);
+}
+
+void createSpring2Demo()
+{
+	Vector3 pos = Vector3(0, 0, 0);
+	ParticleSystem* ps = new ParticleSystem(-1, pos);
+	particleSystems.push_back(ps);
+	ps->createSpring2Demo();
+}
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -277,8 +299,10 @@ void initPhysics(bool interactive)
 	//createGravityForceGenerator();
 	//createWindForceGenerator();
 	//createWhirlwindForceGenerator();
-	createExplosionForceGenerator();
-	
+	//createExplosionForceGenerator();
+
+	//createSpring1Demo();
+	createSpring2Demo();
 }
 
     
@@ -348,7 +372,8 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	}
 	case 'E':
 	{
-		efg->resetTime();
+	        if(efg != nullptr)
+		        efg->resetTime();
 		break;
 	}
 	case '1':

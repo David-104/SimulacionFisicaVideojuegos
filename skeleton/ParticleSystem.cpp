@@ -3,6 +3,23 @@
 #include "GaussianGenerator.h"
 #include <iostream>
 
+#include "ParticleSpringForceGenerator.h"
+#include "SpringForceGenerator.h"
+
+ParticleSystem::ParticleSystem(float pl, Vector3 p)
+{
+	particleLife = pl;
+
+	pos = p;
+
+	modelParticle.acceleration = Vector3(0.0, 0.0, 0.0);
+	modelParticle.gravity = -9.8;
+	modelParticle.damping = 1.0;
+	modelParticle.shape = CreateShape(PxSphereGeometry(1));
+	modelParticle.color = Vector4(1.0, 0.85, 0.6, 1.0);
+	modelParticle.mass = 1.0;
+}
+
 ParticleSystem::ParticleSystem(float particleLife = 10, Vector3 pos = {0, 0, 0}, GeneratorType type = UNIFORM, Vector3 meanVel = Vector3(0.0, 1.0, 0.0), Vector3 meanPos = Vector3(0.0, 0.0, 0.0)) : particleLife(particleLife), pos(pos)
 {
 	ParticleGenerator* pg;
@@ -75,11 +92,31 @@ void ParticleSystem::UpdateForceGenerators(double t)
     }
 }
 
+void ParticleSystem::createSpring1Demo()
+{
+	Particle* p1 = new Particle(Vector3(-10, 0, 0), Vector3(0), Vector3(0), 0.85, -10, 1.0);
+	particles.push_back(ParticleData{p1, 0});
+	SpringForceGenerator* f1 = new SpringForceGenerator(5, 10, pos);
+	forceGenerators.push_back(f1);
+}
+
+void ParticleSystem::createSpring2Demo()
+{
+	Particle* p1 = new Particle(Vector3(10, 0, 0), Vector3(0), Vector3(0), 0.85, 0, 1.0);
+	Particle* p2 = new Particle(Vector3(-10, 0, 0), Vector3(0), Vector3(0), 0.85, 0, 1.0);
+	particles.push_back(ParticleData{ p1, 0 });
+	particles.push_back(ParticleData{ p2, 0 });
+	SpringForceGenerator* f1 = new ParticleSpringForceGenerator(5, 10, p1);
+	SpringForceGenerator* f2 = new ParticleSpringForceGenerator(5, 10, p2);
+	forceGenerators.push_back(f1);
+	forceGenerators.push_back(f2);
+}
+
 void ParticleSystem::updateParticles(double t)
 {
 	for (std::list<ParticleData>::iterator it = particles.begin(); it != particles.end(); it++) {
 		float dist = Vector3(it->particle->getTransform()->p - pos).magnitude();
-		if (it->life < particleLife && dist < MAX_PARTICLE_DIST) {
+		if ((it->life < particleLife || particleLife == -1) && dist < MAX_PARTICLE_DIST) { //particleLife == -1 es que son inmorrtales por tiempo
 			it->particle->Integrate(t);
 			it->life++;
 		}
