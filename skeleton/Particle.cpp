@@ -3,7 +3,7 @@
 
 enum IntegrationModes { EULER, SEMI, VERLET };
 
-constexpr IntegrationModes INTEGRATION_MODE = EULER;
+constexpr IntegrationModes INTEGRATION_MODE = SEMI; //en muelles con euler oscila mucho mas que con semi
 
 Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a = Vector3(0, 0, 0), float d = 1, float g = 0) : vel(vel), a(a), d(d), gravity(g), forceApplied(Vector3(0))
 {

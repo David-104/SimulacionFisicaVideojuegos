@@ -18,7 +18,6 @@
 #include "WindForceGenerator.h"
 #include "WhirlwindForceGenerator.h"
 #include "ExplosionForceGenerator.h"
-#include "SpringForceGenerator.h"
 
 std::string display_text = "This is a test";
 
@@ -376,19 +375,38 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		        efg->resetTime();
 		break;
 	}
+	case 'P':
+	{
+			switch(currentProyectile)
+			{
+			case Bullet:
+				currentProyectile = Fireball;
+				break;
+			case Fireball:
+				currentProyectile = Energy;
+				break;
+			case Energy:
+				currentProyectile = Bullet;
+				break;
+			}
+		break;
+	}
+	case 'F':
+	{
+		Vector3 force = Vector3(0, 100, 0);
+		particleSystems[0]->applyForceToParticles(force);
+		break;
+	}
 	case '1':
 	{
-		currentProyectile = Bullet;
 		break;
 	}
 	case '2':
 	{
-		currentProyectile = Fireball;
 		break;
 	}
 	case '3':
 	{
-		currentProyectile = Energy;
 		break;
 	}
 	default:

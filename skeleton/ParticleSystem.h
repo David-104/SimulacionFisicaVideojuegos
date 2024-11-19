@@ -29,6 +29,8 @@ public:
 
 	void createSpring1Demo();
 	void createSpring2Demo();
+
+	void applyForceToParticles(Vector3 force);
 private:
 	float const MAX_PARTICLE_NUM = 100;
 	float const MAX_PARTICLE_DIST = 1000;
