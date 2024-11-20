@@ -242,6 +242,15 @@ void createSpring2Demo()
 	ps->createSpring2Demo();
 }
 
+
+void createSpringRubberDemo()
+{
+	Vector3 pos = Vector3(0, 0, 0);
+	ParticleSystem* ps = new ParticleSystem(-1, pos);
+	particleSystems.push_back(ps);
+	ps->createSpringRubberDemo();
+}
+
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -301,7 +310,8 @@ void initPhysics(bool interactive)
 	//createExplosionForceGenerator();
 
 	//createSpring1Demo();
-	createSpring2Demo();
+	//createSpring2Demo();
+	createSpringRubberDemo();
 }
 
     

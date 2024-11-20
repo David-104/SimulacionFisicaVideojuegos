@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "ParticleSpringForceGenerator.h"
+#include "RubberForceGenerator.h"
 #include "SpringForceGenerator.h"
 
 ParticleSystem::ParticleSystem(float pl, Vector3 p)
@@ -107,8 +108,22 @@ void ParticleSystem::createSpring2Demo()
 	Particle* p2 = new Particle(Vector3(-10, 0, 0), Vector3(0), Vector3(0), 0.85, 0, shape, Vector4(1.0, 0.0, 1.0, 1.0), 1.0);
 	particles.push_back(ParticleData{ p1, 0 });
 	particles.push_back(ParticleData{ p2, 0 });
-	SpringForceGenerator* f1 = new ParticleSpringForceGenerator(5, 10, p1);
-	SpringForceGenerator* f2 = new ParticleSpringForceGenerator(5, 10, p2);
+	ParticleSpringForceGenerator* f1 = new ParticleSpringForceGenerator(5, 10, p1);
+	ParticleSpringForceGenerator* f2 = new ParticleSpringForceGenerator(5, 10, p2);
+	forceGenerators.push_back(f1);
+	forceGenerators.push_back(f2);
+}
+
+void ParticleSystem::createSpringRubberDemo()
+{
+	PxShape* shape = CreateShape(PxSphereGeometry(1));
+	Particle* p1 = new Particle(Vector3(-10, 0, 0), Vector3(0), Vector3(0), 0.85, 0, shape, Vector4(1.0, 1.0, 0.0, 1.0), 1.0);
+	Particle* p2 = new Particle(Vector3(10, 0, 0), Vector3(0), Vector3(0), 0.85, 0, shape, Vector4(1.0, 0.0, 1.0, 1.0), 1.0);
+	particles.push_back(ParticleData{ p1, 0 });
+	particles.push_back(ParticleData{ p2, 0 });
+
+	RubberForceGenerator* f1 = new RubberForceGenerator(5, 20, p1);
+	RubberForceGenerator* f2 = new RubberForceGenerator(5, 20, p2);
 	forceGenerators.push_back(f1);
 	forceGenerators.push_back(f2);
 }

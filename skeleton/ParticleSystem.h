@@ -29,6 +29,7 @@ public:
 
 	void createSpring1Demo();
 	void createSpring2Demo();
+	void createSpringRubberDemo();
 
 	void applyForceToParticles(Vector3 force);
 private:
