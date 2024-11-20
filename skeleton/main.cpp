@@ -251,6 +251,14 @@ void createSpringRubberDemo()
 	ps->createSpringRubberDemo();
 }
 
+void createBuoyancyDemo()
+{
+	Vector3 pos = Vector3(0, 0, 0);
+	ParticleSystem* ps = new ParticleSystem(-1, pos);
+	particleSystems.push_back(ps);
+	ps->createBuoyancyDemo();
+}
+
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -277,7 +285,7 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 
-	createAxis();
+	//createAxis();
 
 	//manera super sucia de los diferentes sistemas pero bueno
 
@@ -311,7 +319,8 @@ void initPhysics(bool interactive)
 
 	//createSpring1Demo();
 	//createSpring2Demo();
-	createSpringRubberDemo();
+	//createSpringRubberDemo();
+	createBuoyancyDemo();
 }
 
     

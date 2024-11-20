@@ -30,6 +30,7 @@ public:
 	void createSpring1Demo();
 	void createSpring2Demo();
 	void createSpringRubberDemo();
+	void createBuoyancyDemo();
 
 	void applyForceToParticles(Vector3 force);
 private:
