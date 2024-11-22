@@ -1,6 +1,6 @@
 #include "BuoyancyForceGenerator.h"
 
-BuoyancyForceGenerator::BuoyancyForceGenerator(float h, float V, float d, float g, Particle* p) : ForceGenerator(), height(h), volume(V), liquidDensity(d), gravity(g), liquidParticle(p)
+BuoyancyForceGenerator::BuoyancyForceGenerator(float h, float d, float g, Particle* p) : ForceGenerator(), height(h), liquidDensity(d), gravity(g), liquidParticle(p)
 {
 }
 
@@ -19,11 +19,11 @@ void BuoyancyForceGenerator::UpdateForce(Particle* p, double t)
     
     if(heightDiff > height * 0.5)
         immersed = 0.0f;
-    else if (heightDiff > height * 0.5)
+    else if (heightDiff < height * 0.5)
         immersed = 1.0f;
     else
         immersed = heightDiff / height + 0.5;
 
-    force.y = liquidDensity * volume * immersed * gravity;
+    force.y = liquidDensity * p->getVolume() * immersed * gravity;
     p->applyForce(force);
 }

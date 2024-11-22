@@ -1,8 +1,8 @@
 #include "GravityForceGenerator.h"
 
-GravityForceGenerator::GravityForceGenerator(float gAccel)
+GravityForceGenerator::GravityForceGenerator(float gAccel) : gAccel(gAccel)
 {
-    force = Vector3(0.0, gAccel, 0.0);
+    
 }
 
 GravityForceGenerator::~GravityForceGenerator()
@@ -11,5 +11,6 @@ GravityForceGenerator::~GravityForceGenerator()
 
 void GravityForceGenerator::UpdateForce(Particle* p, double t)
 {
+    force = Vector3(0.0, p->getMass() * gAccel, 0.0);
     p->applyForce(force);
 }

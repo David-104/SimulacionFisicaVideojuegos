@@ -6,7 +6,8 @@
 #include "ParticleSpringForceGenerator.h"
 #include "RubberForceGenerator.h"
 #include "SpringForceGenerator.h"
-#include "Render/BuoyancyForceGenerator.h"
+#include "BuoyancyForceGenerator.h"
+#include "GravityForceGenerator.h"
 
 ParticleSystem::ParticleSystem(float pl, Vector3 p)
 {
@@ -134,23 +135,27 @@ void ParticleSystem::createBuoyancyDemo()
 	
 	PxShape* shape1 = CreateShape(PxBoxGeometry(1, 1, 1));
 	//caso Fg = E
-	Particle* p1 = new Particle(Vector3(0, 15, 0), Vector3(0), Vector3(0), 0.85, -10, shape1, Vector4(1.0, 0.0, 0.0, 1.0), 0.5);
+	Particle* p1 = new Particle(Vector3(0, 10, 0), Vector3(0), Vector3(0), 0.85, 0, shape1, Vector4(1.0, 0.0, 0.0, 1.0), 0.5, 0.001);
 	particles.push_back(ParticleData{ p1, 0 });
 
 	//caso Fg > E
-	Particle* p2 = new Particle(Vector3(10, 15, 0), Vector3(0), Vector3(0), 0.85, -10, shape1, Vector4(0.0, 1.0, 0.0, 1.0), 10.0);
+	Particle* p2 = new Particle(Vector3(10, 15, 0), Vector3(0), Vector3(0), 0.85, 0, shape1, Vector4(0.0, 1.0, 0.0, 1.0), 10.0, 0.001);
 	particles.push_back(ParticleData{ p2, 0 });
 
 	//caso Fg < E
-	Particle* p3 = new Particle(Vector3(-10, 15, 0), Vector3(0), Vector3(0), 0.85, -10, shape1, Vector4(0.0, 0.0, 1.0, 1.0), 0.1);
+	Particle* p3 = new Particle(Vector3(-10, 15, 0), Vector3(0), Vector3(0), 0.85, 0, shape1, Vector4(0.0, 0.0, 1.0, 1.0), 0.1, 0.001);
 	particles.push_back(ParticleData{ p3, 0 });
+
 	
 	PxShape* shape2 = CreateShape(PxBoxGeometry(10, 0.001, 10));
 	Particle* water = new Particle(Vector3(0, 10, 0), Vector3(0), Vector3(0), 0.85, 0, shape2, Vector4(0.0, 1.0, 1.0, 1.0), 1.0);
 
-	//esto no me cuadra nada pero bueno
-	BuoyancyForceGenerator* f1 = new BuoyancyForceGenerator(1, 0.001, 1000, -10, water );
+	float gravity = 10;
+	BuoyancyForceGenerator* f1 = new BuoyancyForceGenerator(1, 1000, gravity, water );
 	forceGenerators.push_back(f1);
+	
+	GravityForceGenerator* gf = new GravityForceGenerator(-gravity);
+	forceGenerators.push_back(gf);
 }
 
 void ParticleSystem::applyForceToParticles(Vector3 force)

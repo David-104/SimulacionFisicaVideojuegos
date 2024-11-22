@@ -5,7 +5,7 @@ enum IntegrationModes { EULER, SEMI, VERLET };
 
 constexpr IntegrationModes INTEGRATION_MODE = SEMI; //en muelles con euler oscila mucho mas que con semi
 
-Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a = Vector3(0, 0, 0), float d = 1, float g = 0) : vel(vel), a(a), d(d), gravity(g), forceApplied(Vector3(0))
+Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a = Vector3(0, 0, 0), float d = 1, float g = 0) : vel(vel), a(a), d(d), gravity(g), forceApplied(Vector3(0)), mass(1), volume(1)
 {
 	pose = new PxTransform(pos);
 
@@ -19,6 +19,7 @@ Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a, float d, float g, float 
 
 	PxShape* shape = CreateShape(PxSphereGeometry(1));
 	renderItem = new RenderItem(shape, pose, Vector4(0.0, 0.0, 0.0, 1.0));
+	volume = 1;
 }
 
 Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a, float d, float g, PxShape* shape, const Vector4& color) : vel(vel), a(a), d(d), gravity(g), forceApplied(Vector3(0))
@@ -28,6 +29,12 @@ Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a, float d, float g, PxShap
 }
 
 Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a, float d, float gravity, PxShape* shape, const Vector4& color, float mass) : vel(vel), a(a), d(d), gravity(gravity), mass(mass), forceApplied(Vector3(0))
+{
+	pose = new PxTransform(pos);
+	renderItem = new RenderItem(shape, pose, color);
+}
+
+Particle::Particle(Vector3 pos, Vector3 vel, Vector3 a, float d, float gravity, PxShape* shape, const Vector4& color, float mass, float volume) : vel(vel), a(a), d(d), gravity(gravity), mass(mass), forceApplied(Vector3(0)), volume(volume)
 {
 	pose = new PxTransform(pos);
 	renderItem = new RenderItem(shape, pose, color);
