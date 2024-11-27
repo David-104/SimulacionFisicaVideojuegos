@@ -212,11 +212,11 @@ void createExplosionForceGenerator() {
 	model.shape = CreateShape(PxSphereGeometry(1));
 	model.color = Vector4(1.0, 0.0, 0.0, 1.0);
 	model.mass = 0.1;
-	ParticleSystem* ps = new ParticleSystem(1000, Vector3(0.1, 0, 0.1), ParticleSystem::GeneratorType::UNIFORM, Vector3(1.0, 1.0, 1.0), Vector3(0.0, 0.0, 0.0));
+	ParticleSystem* ps = new ParticleSystem(200, Vector3(0.1, 0, 0.1), ParticleSystem::GeneratorType::UNIFORM, Vector3(0.1, 0.1, 0.1), Vector3(0.0, 0.0, 0.0));
 	particleSystems.push_back(ps);
 	ps->setModelParticle(model);
 
-	efg = new ExplosionForceGenerator(Vector3(0), 1.0, 500.0, 1.0);
+	efg = new ExplosionForceGenerator(Vector3(0), 10.0, 500.0, 1.0);
 	ps->AddForceGenerator(efg);
 }
 
@@ -315,12 +315,12 @@ void initPhysics(bool interactive)
 	//createGravityForceGenerator();
 	//createWindForceGenerator();
 	//createWhirlwindForceGenerator();
-	//createExplosionForceGenerator();
+	createExplosionForceGenerator();
 
 	//createSpring1Demo();
 	//createSpring2Demo();
 	//createSpringRubberDemo();
-	createBuoyancyDemo();
+	//createBuoyancyDemo();
 }
 
     
