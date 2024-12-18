@@ -16,8 +16,7 @@ public:
 		Vector4 color;
 		float mass;
 	};
-	ParticleSystem(float particleLife, Vector3 pos);
-	ParticleSystem(float particleLife, Vector3 pos, GeneratorType type, Vector3 meanVel, Vector3 meanPos);
+	ParticleSystem(float particleLife = 100, Vector3 pos = Vector3(0), GeneratorType type = UNIFORM, Vector3 meanVel = Vector3(0), Vector3 meanPos = Vector3(0), float maxPartNum = 1000, float maxPartDist = 1000);
 	~ParticleSystem();
 	void Update(double t);
 	void addParticle(Particle* particle);
@@ -34,8 +33,8 @@ public:
 
 	void applyForceToParticles(Vector3 force);
 private:
-	float const MAX_PARTICLE_NUM = 100;
-	float const MAX_PARTICLE_DIST = 1000;
+	float MAX_PARTICLE_NUM = 100;
+	float MAX_PARTICLE_DIST = 1000;
 	float particleLife;
 	Vector3 pos; 
 	ModelParticleData modelParticle;

@@ -9,21 +9,8 @@
 #include "BuoyancyForceGenerator.h"
 #include "GravityForceGenerator.h"
 
-ParticleSystem::ParticleSystem(float pl, Vector3 p)
-{
-	particleLife = pl;
 
-	pos = p;
-
-	modelParticle.acceleration = Vector3(0.0, 0.0, 0.0);
-	modelParticle.gravity = -9.8;
-	modelParticle.damping = 1.0;
-	modelParticle.shape = CreateShape(PxSphereGeometry(1));
-	modelParticle.color = Vector4(1.0, 0.85, 0.6, 1.0);
-	modelParticle.mass = 1.0;
-}
-
-ParticleSystem::ParticleSystem(float particleLife = 10, Vector3 pos = {0, 0, 0}, GeneratorType type = UNIFORM, Vector3 meanVel = Vector3(0.0, 1.0, 0.0), Vector3 meanPos = Vector3(0.0, 0.0, 0.0)) : particleLife(particleLife), pos(pos)
+ParticleSystem::ParticleSystem(float particleLife, Vector3 pos, GeneratorType type, Vector3 meanVel, Vector3 meanPos, float maxPartNum, float maxPartDist) : particleLife(particleLife), pos(pos), MAX_PARTICLE_NUM(maxPartNum), MAX_PARTICLE_DIST(maxPartDist)
 {
 	ParticleGenerator* pg;
     switch (type)
@@ -172,7 +159,7 @@ void ParticleSystem::updateParticles(double t)
 		float dist = Vector3(it->particle->getTransform()->p - pos).magnitude();
 		if ((it->life < particleLife || particleLife == -1) && dist < MAX_PARTICLE_DIST) { //particleLife == -1 es que son inmorrtales por tiempo
 			it->particle->Integrate(t);
-			it->life++;
+			it->life += t;
 		}
 		else
 			particlesToErase.push_back(it);

@@ -269,6 +269,10 @@
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Render.cpp" />
     <ClCompile Include="RubberForceGenerator.cpp" />
+    <ClCompile Include="SolidGaussianGenerator.cpp" />
+    <ClCompile Include="SolidGenerator.cpp" />
+    <ClCompile Include="SolidoRigido.cpp" />
+    <ClCompile Include="SolidoRigidoSystem.cpp" />
     <ClCompile Include="SpringForceGenerator.cpp" />
     <ClCompile Include="UniformGenerator.cpp" />
     <ClCompile Include="Vector3D.cpp" />
@@ -292,6 +296,10 @@
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Render.h" />
     <ClInclude Include="RubberForceGenerator.h" />
+    <ClInclude Include="SolidGaussianGenerator.h" />
+    <ClInclude Include="SolidGenerator.h" />
+    <ClInclude Include="SolidoRigido.h" />
+    <ClInclude Include="SolidoRigidoSystem.h" />
     <ClInclude Include="SpringForceGenerator.h" />
     <ClInclude Include="UniformGenerator.h" />
     <ClInclude Include="Vector3D.h" />

@@ -18,6 +18,8 @@
 #include "WindForceGenerator.h"
 #include "WhirlwindForceGenerator.h"
 #include "ExplosionForceGenerator.h"
+#include "SolidoRigido.h"
+#include "SolidoRigidoSystem.h"
 
 std::string display_text = "This is a test";
 
@@ -39,12 +41,16 @@ PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 
+
+//cosas mias no de Physx
 std::vector<RenderItem*> renderItems;
 std::vector<Proyectile*> proyectiles;
 std::vector<ParticleSystem*> particleSystems;
+std::vector<SolidoRigidoSystem*> solidosSystems;
 ExplosionForceGenerator* efg;
 enum ProyectileType {Bullet, Fireball, Energy };
-ProyectileType currentProyectile = Bullet;	
+ProyectileType currentProyectile = Bullet;
+
 
 /*void customVector3DTests() {
 	Vector3D patata(5.0, 0.0, 0.0);
@@ -196,7 +202,7 @@ void createWhirlwindForceGenerator() {
 	model.shape = CreateShape(PxSphereGeometry(1));
 	model.color = Vector4(0.0, 0.75, 0.75, 1.0);
 	model.mass = 0.1;
-	ParticleSystem* ps = new ParticleSystem(10000, Vector3(0, 0, 0), ParticleSystem::GeneratorType::GAUSSIAN, Vector3(10.0, 1.0, 10.0), Vector3(0.0, 0.0, 0.0));
+	ParticleSystem* ps = new ParticleSystem(100, Vector3(0, 0, 0), ParticleSystem::GeneratorType::GAUSSIAN, Vector3(10.0, 1.0, 10.0), Vector3(0.0, 0.0, 0.0), 10000, 1000);
 	particleSystems.push_back(ps);
 	ps->setModelParticle(model);
 
@@ -259,6 +265,39 @@ void createBuoyancyDemo()
 	ps->createBuoyancyDemo();
 }
 
+void solidoRigido1Demo()
+{
+	float width = 2.0, height = 1.0, depth = 1.0;
+	PxShape* shape = CreateShape(PxBoxGeometry(width, height, depth));
+	float mass = 1.0;
+	SolidoRigido* rigido = new SolidoRigido(Vector3(0.0, 20.0, 0.0), shape, gScene, gPhysics, Vector4(1.0, 0.0, 0.0, 1.0));
+	Vector3 tensor = Vector3(1 / 12 * mass * (pow(depth, 2) + pow(height, 2)),
+		1 / 12 * mass * (pow(width, 2) + pow(depth, 2)),
+		1 / 12 * mass * (pow(width, 2) + pow(height, 2)));
+	rigido->setMass(mass);
+	rigido->setMassSpaceInertiaTensor(tensor);
+
+	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0)));
+	PxShape* shapeSuelo = CreateShape(PxBoxGeometry(100.0, 1.0, 100.0));
+	suelo->attachShape(*shapeSuelo);
+	gScene->addActor(*suelo);
+
+	RenderItem* sueloRI = new RenderItem(shapeSuelo, suelo, Vector4(1));
+}
+
+void solidoRigido2Demo()
+{
+	SolidoRigidoSystem* sys = new SolidoRigidoSystem(gScene, gPhysics, 10, Vector3(0), SolidoRigidoSystem::GAUSSIAN, Vector3(1, 1, 1), Vector3(1, 1, 1), 100, 1000);
+	solidosSystems.push_back(sys);
+
+	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0)));
+	PxShape* shapeSuelo = CreateShape(PxBoxGeometry(100.0, 1.0, 100.0));
+	suelo->attachShape(*shapeSuelo);
+	gScene->addActor(*suelo);
+
+	RenderItem* sueloRI = new RenderItem(shapeSuelo, suelo, Vector4(1));
+}
+
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -315,12 +354,15 @@ void initPhysics(bool interactive)
 	//createGravityForceGenerator();
 	//createWindForceGenerator();
 	//createWhirlwindForceGenerator();
-	createExplosionForceGenerator();
+	//createExplosionForceGenerator();
 
 	//createSpring1Demo();
 	//createSpring2Demo();
 	//createSpringRubberDemo();
 	//createBuoyancyDemo();
+
+	//solidoRigido1Demo();
+	solidoRigido2Demo();
 }
 
     
@@ -341,6 +383,11 @@ void stepPhysics(bool interactive, double t)
     for each (ParticleSystem* ps in particleSystems)
     {
         ps->Update(t);
+    }
+
+    for (auto solidoSys : solidosSystems)
+    {
+		solidoSys->Update(t);
     }
 }
 

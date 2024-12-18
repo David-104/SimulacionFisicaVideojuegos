@@ -26,6 +26,10 @@
     <ClCompile Include="ParticleSpringForceGenerator.cpp" />
     <ClCompile Include="BuoyancyForceGenerator.cpp" />
     <ClCompile Include="RubberForceGenerator.cpp" />
+    <ClCompile Include="SolidoRigido.cpp" />
+    <ClCompile Include="SolidoRigidoSystem.cpp" />
+    <ClCompile Include="SolidGenerator.cpp" />
+    <ClCompile Include="SolidGaussianGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -53,6 +57,10 @@
     <ClInclude Include="ParticleSpringForceGenerator.h" />
     <ClInclude Include="BuoyancyForceGenerator.h" />
     <ClInclude Include="RubberForceGenerator.h" />
+    <ClInclude Include="SolidoRigido.h" />
+    <ClInclude Include="SolidoRigidoSystem.h" />
+    <ClInclude Include="SolidGenerator.h" />
+    <ClInclude Include="SolidGaussianGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
