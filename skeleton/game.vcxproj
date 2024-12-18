@@ -273,6 +273,7 @@
     <ClCompile Include="SolidGenerator.cpp" />
     <ClCompile Include="SolidoRigido.cpp" />
     <ClCompile Include="SolidoRigidoSystem.cpp" />
+    <ClCompile Include="SolidUniformGenerator.cpp" />
     <ClCompile Include="SpringForceGenerator.cpp" />
     <ClCompile Include="UniformGenerator.cpp" />
     <ClCompile Include="Vector3D.cpp" />
@@ -300,6 +301,7 @@
     <ClInclude Include="SolidGenerator.h" />
     <ClInclude Include="SolidoRigido.h" />
     <ClInclude Include="SolidoRigidoSystem.h" />
+    <ClInclude Include="SolidUniformGenerator.h" />
     <ClInclude Include="SpringForceGenerator.h" />
     <ClInclude Include="UniformGenerator.h" />
     <ClInclude Include="Vector3D.h" />

@@ -4,6 +4,7 @@
 
 #include "SolidGaussianGenerator.h"
 #include "SolidGenerator.h"
+#include "SolidUniformGenerator.h"
 
 SolidoRigidoSystem::SolidoRigidoSystem(PxScene* scene, PxPhysics* physics, float solidLife, Vector3 pos, GeneratorType type, Vector3 meanVel,
                                        Vector3 meanPos, float maxSolNum, float maxSolDist) : scene(scene), physics(physics), MAX_SOLIDOS_NUM(maxSolNum), MAX_SOLIDOS_DIST(maxSolDist), pos(pos)
@@ -14,7 +15,7 @@ SolidoRigidoSystem::SolidoRigidoSystem(PxScene* scene, PxPhysics* physics, float
 	case NONE:
 		break;
 	case UNIFORM:
-		//pg = new UniformGenerator(this, meanVel, meanPos);
+		sg = new SolidUniformGenerator(this, meanVel, meanPos);
 		break;
 	case GAUSSIAN:
 		sg = new SolidGaussianGenerator(this, 5.0, meanVel, meanPos);

@@ -287,8 +287,26 @@ void solidoRigido1Demo()
 
 void solidoRigido2Demo()
 {
-	SolidoRigidoSystem* sys = new SolidoRigidoSystem(gScene, gPhysics, 10, Vector3(0), SolidoRigidoSystem::GAUSSIAN, Vector3(1, 1, 1), Vector3(1, 1, 1), 100, 1000);
+	SolidoRigidoSystem::ModelSolidoRigido model;
+	model.shape = CreateShape(PxBoxGeometry(1, 1, 1));
+	model.color = Vector4(1.0, 0.0, 0.0, 1.0);
+	model.tensor = Vector3(1 / 6 * 1 * pow(1, 2));
+	model.solidoLife = 5;
+
+	SolidoRigidoSystem* sys = new SolidoRigidoSystem(gScene, gPhysics, 10, Vector3(0), SolidoRigidoSystem::GAUSSIAN, Vector3(1, 1, 1), Vector3(1, 1, 1), 100, 100);
 	solidosSystems.push_back(sys);
+	sys->setModelSolidoRigido(model);
+
+	SolidoRigidoSystem::ModelSolidoRigido model2;
+	model2.shape = CreateShape(PxBoxGeometry(1, 1, 1));
+	model2.color = Vector4(0.0, 0.0, 1.0, 1.0);
+	model2.tensor = Vector3(1 / 6 * 1 * pow(1, 2));
+	model2.solidoLife = 2;
+
+	SolidoRigidoSystem* sys2 = new SolidoRigidoSystem(gScene, gPhysics, 10, Vector3(0), SolidoRigidoSystem::UNIFORM, Vector3(1, 1, 1), Vector3(1, 1, 1), 100, 100);
+	solidosSystems.push_back(sys2);
+	sys2->setModelSolidoRigido(model2);
+
 
 	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0)));
 	PxShape* shapeSuelo = CreateShape(PxBoxGeometry(100.0, 1.0, 100.0));
