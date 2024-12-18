@@ -298,12 +298,12 @@ void solidoRigido2Demo()
 	sys->setModelSolidoRigido(model);
 
 	SolidoRigidoSystem::ModelSolidoRigido model2;
-	model2.shape = CreateShape(PxBoxGeometry(1, 1, 1));
+	model2.shape = CreateShape(PxBoxGeometry(3, 3, 3));
 	model2.color = Vector4(0.0, 0.0, 1.0, 1.0);
-	model2.tensor = Vector3(1 / 6 * 1 * pow(1, 2));
+	model2.tensor = Vector3(1 / 6 * 2 * pow(3, 2));
 	model2.solidoLife = 2;
 
-	SolidoRigidoSystem* sys2 = new SolidoRigidoSystem(gScene, gPhysics, 10, Vector3(0), SolidoRigidoSystem::UNIFORM, Vector3(1, 1, 1), Vector3(1, 1, 1), 100, 100);
+	SolidoRigidoSystem* sys2 = new SolidoRigidoSystem(gScene, gPhysics, 10, Vector3(0), SolidoRigidoSystem::UNIFORM, Vector3(1, 1, 1), Vector3(10, 1, 10), 100, 100);
 	solidosSystems.push_back(sys2);
 	sys2->setModelSolidoRigido(model2);
 
