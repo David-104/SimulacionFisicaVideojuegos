@@ -33,6 +33,7 @@
     <ClCompile Include="SolidUniformGenerator.cpp" />
     <ClCompile Include="SolidoForceGenerator.cpp" />
     <ClCompile Include="SolidoWindGenerator.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -67,6 +68,7 @@
     <ClInclude Include="SolidUniformGenerator.h" />
     <ClInclude Include="SolidoForceGenerator.h" />
     <ClInclude Include="SolidoWindGenerator.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

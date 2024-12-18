@@ -18,6 +18,7 @@
 #include "WindForceGenerator.h"
 #include "WhirlwindForceGenerator.h"
 #include "ExplosionForceGenerator.h"
+#include "Player.h"
 #include "SolidoRigido.h"
 #include "SolidoRigidoSystem.h"
 #include "SolidoWindGenerator.h"
@@ -51,7 +52,7 @@ std::vector<SolidoRigidoSystem*> solidosSystems;
 ExplosionForceGenerator* efg;
 enum ProyectileType {Bullet, Fireball, Energy };
 ProyectileType currentProyectile = Bullet;
-
+Player* player;
 
 /*void customVector3DTests() {
 	Vector3D patata(5.0, 0.0, 0.0);
@@ -323,6 +324,24 @@ void solidoRigido2Demo()
 	sys2->AddForceGenerator(wg);
 }
 
+void createGameScene()
+{
+	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0)));
+	PxShape* shapeSuelo = CreateShape(PxBoxGeometry(100.0, 1.0, 100.0));
+	suelo->attachShape(*shapeSuelo);
+	gScene->addActor(*suelo);
+	RenderItem* sueloRI = new RenderItem(shapeSuelo, suelo, Vector4(1));
+
+	PxRigidStatic* cubo = gPhysics->createRigidStatic(PxTransform(Vector3(0, 50, 0)));
+	PxShape* cuboShape = CreateShape(PxBoxGeometry(5, 5, 5));
+	suelo->attachShape(*cuboShape);
+	gScene->addActor(*cubo);
+	RenderItem* cuboRI = new RenderItem(cuboShape, cubo, Vector4(0, 0, 0, 1));
+
+	//player
+	player = new Player(Vector3(10, 5, 10), gScene, gPhysics, GetCamera());
+}
+
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -387,7 +406,9 @@ void initPhysics(bool interactive)
 	//createBuoyancyDemo();
 
 	//solidoRigido1Demo();
-	solidoRigido2Demo();
+	//solidoRigido2Demo();
+
+	createGameScene();
 }
 
     
@@ -414,6 +435,8 @@ void stepPhysics(bool interactive, double t)
     {
 		solidoSys->Update(t);
     }
+
+	player->update();
 }
 
 // Function to clean data
@@ -459,59 +482,49 @@ void cleanupPhysics(bool interactive)
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)
 {
+	player->processInput(toupper(key));
 	PX_UNUSED(camera);
 
 	switch(toupper(key))
 	{
-	//case 'B': break;
-	//case ' ':	break;
-	case 'Z':
-	{
-		ShootProyectile(currentProyectile);
-		break;
-	}
-	case 'E':
-	{
-	        if(efg != nullptr)
-		        efg->resetTime();
-		break;
-	}
-	case 'P':
-	{
-			switch(currentProyectile)
-			{
-			case Bullet:
-				currentProyectile = Fireball;
-				break;
-			case Fireball:
-				currentProyectile = Energy;
-				break;
-			case Energy:
-				currentProyectile = Bullet;
-				break;
-			}
-		break;
-	}
-	case 'F':
-	{
-		Vector3 force = Vector3(0, 100, 0);
-		particleSystems[0]->applyForceToParticles(force);
-		break;
-	}
-	case '1':
-	{
-		break;
-	}
-	case '2':
-	{
-		break;
-	}
-	case '3':
-	{
-		break;
-	}
-	default:
-		break;
+	    case 'Z':
+	    {
+		    ShootProyectile(currentProyectile);
+		    break;
+	    }
+	    case 'E':
+	    {
+		    if (efg != nullptr)
+			    efg->resetTime();
+		    break;
+	    }
+	    case 'P':
+	    {
+		    switch (currentProyectile)
+		    {
+		    case Bullet:
+			    currentProyectile = Fireball;
+			    break;
+		    case Fireball:
+			    currentProyectile = Energy;
+			    break;
+		    case Energy:
+			    currentProyectile = Bullet;
+			    break;
+		    }
+		    break;
+	    }
+	    case 'F':
+	    {
+		    if (particleSystems.size() > 0)
+		    {
+			    Vector3 force = Vector3(0, 100, 0);
+			    particleSystems[0]->applyForceToParticles(force);
+		    }
+		    break;
+	    }
+	    default:
+		    break;
 	}
 }
 

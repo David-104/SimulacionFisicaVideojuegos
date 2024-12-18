@@ -264,6 +264,7 @@
     <ClCompile Include="ParticleGenerator.cpp" />
     <ClCompile Include="ParticleSpringForceGenerator.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Proyectile.cpp" />
     <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="BuoyancyForceGenerator.cpp" />
@@ -294,6 +295,7 @@
     <ClInclude Include="ParticleGenerator.h" />
     <ClInclude Include="ParticleSpringForceGenerator.h" />
     <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Proyectile.h" />
     <ClInclude Include="RenderUtils.hpp" />
     <ClInclude Include="BuoyancyForceGenerator.h" />
