@@ -83,6 +83,7 @@
       </PrecompiledHeaderFile>
       <ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalOptions>
@@ -271,8 +272,10 @@
     <ClCompile Include="RubberForceGenerator.cpp" />
     <ClCompile Include="SolidGaussianGenerator.cpp" />
     <ClCompile Include="SolidGenerator.cpp" />
+    <ClCompile Include="SolidoForceGenerator.cpp" />
     <ClCompile Include="SolidoRigido.cpp" />
     <ClCompile Include="SolidoRigidoSystem.cpp" />
+    <ClCompile Include="SolidoWindGenerator.cpp" />
     <ClCompile Include="SolidUniformGenerator.cpp" />
     <ClCompile Include="SpringForceGenerator.cpp" />
     <ClCompile Include="UniformGenerator.cpp" />
@@ -299,8 +302,10 @@
     <ClInclude Include="RubberForceGenerator.h" />
     <ClInclude Include="SolidGaussianGenerator.h" />
     <ClInclude Include="SolidGenerator.h" />
+    <ClInclude Include="SolidoForceGenerator.h" />
     <ClInclude Include="SolidoRigido.h" />
     <ClInclude Include="SolidoRigidoSystem.h" />
+    <ClInclude Include="SolidoWindGenerator.h" />
     <ClInclude Include="SolidUniformGenerator.h" />
     <ClInclude Include="SpringForceGenerator.h" />
     <ClInclude Include="UniformGenerator.h" />

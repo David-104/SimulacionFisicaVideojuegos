@@ -2,6 +2,7 @@
 #include "core.hpp"
 #include "Particle.h"
 
+
 class ForceGenerator
 {
 public:

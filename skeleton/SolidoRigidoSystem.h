@@ -2,6 +2,8 @@
 #include"SolidoRigido.h"
 #include <list>
 
+#include "SolidoForceGenerator.h"
+
 //#include "ForceGenerator.h"
 class SolidGenerator;
 class SolidoRigidoSystem
@@ -22,12 +24,7 @@ public:
 	inline ModelSolidoRigido getModelSolidoRigido() { return modelSolido; }
 	void setModelSolidoRigido(ModelSolidoRigido ms);
 	void UpdateForceGenerators(double t);
-	//inline void AddForceGenerator(ForceGenerator* fg) { forceGenerators.push_back(fg); }
-
-	void createSpring1Demo();
-	void createSpring2Demo();
-	void createSpringRubberDemo();
-	void createBuoyancyDemo();
+	inline void AddForceGenerator(SolidoForceGenerator* fg) { forceGenerators.push_back(fg); }
 
 	void applyForceToSolidosRigidos(Vector3 force);
 	PxScene* getScene() { return scene; }
@@ -43,7 +40,7 @@ private:
 	std::list<SolidoRigido*> solidos;
 	std::list<SolidGenerator*> generators;
 	std::vector<std::list<SolidoRigido*>::iterator> solidosToErase;
-	//std::vector<ForceGenerator*> forceGenerators;
+	std::vector<SolidoForceGenerator*> forceGenerators;
 
 	void updateSolidos(double t);
 	void updateGenerators(double t);

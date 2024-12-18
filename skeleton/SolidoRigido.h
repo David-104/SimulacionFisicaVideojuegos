@@ -16,6 +16,7 @@ public:
     void setMass(float mass) { rigid->setMass(mass); }
     void setVel(Vector3 vel) { rigid->setLinearVelocity(vel); }
     const PxTransform* getPose() { return &rigid->getGlobalPose(); }
+    Vector3 getVel() { return rigid->getLinearVelocity(); }
 protected:
     PxRigidDynamic* rigid;
     RenderItem* renderItem;

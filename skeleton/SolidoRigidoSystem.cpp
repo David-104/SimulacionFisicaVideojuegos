@@ -47,12 +47,12 @@ void SolidoRigidoSystem::Update(double t)
 	if (solidos.size() < MAX_SOLIDOS_NUM) //&& generators.size() > 0
 		updateGenerators(t);
 
-	/*if (forceGenerators.size() > 0)
-		UpdateForceGenerators(t);*/
+	if (forceGenerators.size() > 0)
+		UpdateForceGenerators(t);
 
 	updateSolidos(t);
 
-	std::cout << solidos.size() << std::endl;
+	//std::cout << solidos.size() << std::endl;
 }
 
 void SolidoRigidoSystem::addSolidoRigido(SolidoRigido* solido)
@@ -67,29 +67,13 @@ void SolidoRigidoSystem::setModelSolidoRigido(ModelSolidoRigido ms)
 
 void SolidoRigidoSystem::UpdateForceGenerators(double t)
 {
-	/*for each (ForceGenerator * fg in forceGenerators)
+    for each (auto fg in forceGenerators)
 	{
-		for each (SolidoData data in solidos)
+		for each (auto solido in solidos)
 		{
-			fg->UpdateForce(data.solido, t);
+			fg->UpdateForce(solido, t);
 		}
-	}*/
-}
-
-void SolidoRigidoSystem::createSpring1Demo()
-{
-}
-
-void SolidoRigidoSystem::createSpring2Demo()
-{
-}
-
-void SolidoRigidoSystem::createSpringRubberDemo()
-{
-}
-
-void SolidoRigidoSystem::createBuoyancyDemo()
-{
+	}
 }
 
 void SolidoRigidoSystem::applyForceToSolidosRigidos(Vector3 force)

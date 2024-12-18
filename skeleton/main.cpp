@@ -20,6 +20,7 @@
 #include "ExplosionForceGenerator.h"
 #include "SolidoRigido.h"
 #include "SolidoRigidoSystem.h"
+#include "SolidoWindGenerator.h"
 
 std::string display_text = "This is a test";
 
@@ -287,6 +288,8 @@ void solidoRigido1Demo()
 
 void solidoRigido2Demo()
 {
+	//esta el problemilla de que se generan a veces unos dentros de otros y salen volando, pero quitando eso funciona
+
 	SolidoRigidoSystem::ModelSolidoRigido model;
 	model.shape = CreateShape(PxBoxGeometry(1, 1, 1));
 	model.color = Vector4(1.0, 0.0, 0.0, 1.0);
@@ -314,6 +317,10 @@ void solidoRigido2Demo()
 	gScene->addActor(*suelo);
 
 	RenderItem* sueloRI = new RenderItem(shapeSuelo, suelo, Vector4(1));
+
+
+	SolidoWindGenerator* wg = new SolidoWindGenerator(Vector3(0.0, 0.0, -1000.0), 0.0, 1.0, 0.0);
+	sys2->AddForceGenerator(wg);
 }
 
 // Initialize physics engine
@@ -422,6 +429,16 @@ void cleanupPhysics(bool interactive)
 	for each (RenderItem* renderItem in renderItems)
 	{
 		DeregisterRenderItem(renderItem);
+	}
+
+    for (auto particle_system : particleSystems)
+    {
+		delete particle_system;
+    }
+
+	for (auto solid_system : solidosSystems)
+	{
+		delete solid_system;
 	}
 
 
