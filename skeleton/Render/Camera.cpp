@@ -35,6 +35,8 @@
 
 using namespace physx;
 
+float const MOUSE_SENS = 0.01;
+
 namespace Snippets
 {
 
@@ -50,8 +52,8 @@ void Camera::handleMouse(int button, int state, int x, int y)
 {
 	PX_UNUSED(state);
 	PX_UNUSED(button);
-	mMouseX = x;
-	mMouseY = y;
+	//mMouseX = x;
+	//mMouseY = y;
 }
 
 bool Camera::handleKey(unsigned char key, int x, int y, float speed)
@@ -83,17 +85,18 @@ void Camera::handleMotion(int x, int y)
 	int dx = mMouseX - x;
 	int dy = mMouseY - y;
 
-	PxVec3 viewY = mDir.cross(PxVec3(0,1,0)).getNormalized();
+	PxVec3 viewY = mDir.cross(PxVec3(0, 1, 0)).getNormalized();
 
-	PxQuat qx(PxPi * dx / 180.0f, PxVec3(0,1,0));
+	PxQuat qx(PxPi * (dx * MOUSE_SENS) / 180.0f, PxVec3(0, 1, 0));
 	mDir = qx.rotate(mDir);
-	PxQuat qy(PxPi * dy / 180.0f, viewY);
+	PxQuat qy(PxPi * (dy * MOUSE_SENS * 0.25) / 180.0f, viewY);
 	mDir = qy.rotate(mDir);
 
 	mDir.normalize();
 
-	mMouseX = x;
-	mMouseY = y;
+
+	mMouseX = glutGet(GLUT_WINDOW_WIDTH) / 2;
+	mMouseY = glutGet(GLUT_WINDOW_HEIGHT) / 2;
 }
 
 PxTransform Camera::getTransform() const

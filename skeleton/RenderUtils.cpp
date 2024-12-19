@@ -146,8 +146,8 @@ void renderLoop()
 	glutDisplayFunc(renderCallback);
 	glutKeyboardFunc(keyboardCallback);
 	glutMouseFunc(mouseCallback);
-	glutMotionFunc(motionCallback);
-	//glutPassiveMotionFunc(motionCallback); //para la camara en primera PERSONA
+	//glutMotionFunc(motionCallback);
+	glutPassiveMotionFunc(motionCallback); //para la camara en primera PERSONA
 	
 	motionCallback(0,0);
 

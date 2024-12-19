@@ -254,7 +254,7 @@ void setupDefaultWindow(const char *name)
 	int mainHandle = glutCreateWindow(name);
 	glutSetWindow(mainHandle);
 	glutReshapeFunc(reshapeCallback);
-	
+	glutSetCursor(GLUT_CURSOR_NONE);
 	delete[] namestr;
 }
 
