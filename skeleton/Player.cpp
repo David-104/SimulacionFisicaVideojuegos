@@ -90,7 +90,7 @@ void Player::movement()
         newVel += Vector3(0, rigid->getLinearVelocity().y, 0);
         rigid->setLinearVelocity(newVel);
     }
-   
+
     inputDirection = { 0, 0 };
 }
 
@@ -112,8 +112,6 @@ void Player::processInput(unsigned char key)
         break;
     case ' ': //espacio
         jump();
-    default:
-        inputDirection = { 0, 0 };
         break;
     }
 }
