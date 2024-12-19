@@ -364,9 +364,11 @@ void createGameScene()
 	gScene->addActor(*suelo);
 	RenderItem* sueloRI = new RenderItem(shapeSuelo, suelo, Vector4(1));
 
-	//solido rigido de adorno
+	//trampolin
 	PxRigidStatic* cubo = gPhysics->createRigidStatic(PxTransform(Vector3(0, 50, 0)));
 	PxShape* cuboShape = CreateShape(PxBoxGeometry(5, 5, 5));
+	PxMaterial* materialTrampolin = gPhysics->createMaterial(0.0, 0.0, 10.0);
+	cuboShape->setMaterials(&materialTrampolin, 1);
 	cubo->attachShape(*cuboShape);
 	gScene->addActor(*cubo);
 	RenderItem* cuboRI = new RenderItem(cuboShape, cubo, Vector4(0, 0, 0, 1));
