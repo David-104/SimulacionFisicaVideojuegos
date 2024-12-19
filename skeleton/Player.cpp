@@ -8,16 +8,30 @@ float const PLAYER_SPEED = 500;
 
 Player::Player(Vector3 pos, PxScene* scene, PxPhysics* physics, Camera* cam) : scene(scene), physics(physics), cam(cam)
 {
-    float width = 1.0, height = 2.0, depth = 1.0, mass = 1.0;
+    float mass = 1.0;
+    float radius = 0.5;
+    float height = 2;
     PxTransform transform = PxTransform(pos);
     rigid = physics->createRigidDynamic(transform);
-    auto shape = CreateShape(PxBoxGeometry(width, height, depth));
+
+    //ya que physx no tiene geometria de cilindro asumimos que una capsula es un cilindro (en este caso de altura 2 y radio 0.5) para calcular el tensor de inercia
+    auto shape = CreateShape(PxCapsuleGeometry(0.5, 0.5));
     rigid->attachShape(*shape);
     rigid->setMass(mass);
-    Vector3 tensor = Vector3(1 / 12 * mass * (pow(depth, 2) + pow(height, 2)),
-        1 / 12 * mass * (pow(width, 2) + pow(depth, 2)),
-        1 / 12 * mass * (pow(width, 2) + pow(height, 2)));
+
+    Vector3 tensor = Vector3(1/12 * mass *(3 * pow(radius, 2) + pow(height, 2)),
+        1/2 * mass * pow(radius, 2),
+        1 / 12 * mass * (3 * pow(radius, 2) + pow(height, 2)));
+
     rigid->setMassSpaceInertiaTensor(tensor);
+
+    //bloqueamos la rotacion para que el rigido de la capsula no se "caiga"
+    rigid->setRigidDynamicLockFlags(PxRigidDynamicLockFlag::eLOCK_ANGULAR_X |
+        PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y |
+        PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z);
+
+    //no hace falta tener un renderItem porque es en primera persona y no se va a ver
+
     scene->addActor(*rigid);
 }
 

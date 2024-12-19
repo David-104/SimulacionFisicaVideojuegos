@@ -49,10 +49,10 @@ std::vector<RenderItem*> renderItems;
 std::vector<Proyectile*> proyectiles;
 std::vector<ParticleSystem*> particleSystems;
 std::vector<SolidoRigidoSystem*> solidosSystems;
-ExplosionForceGenerator* efg;
+ExplosionForceGenerator* efg = nullptr;
 enum ProyectileType {Bullet, Fireball, Energy };
 ProyectileType currentProyectile = Bullet;
-Player* player;
+Player* player = nullptr;
 
 bool fullScreen = true;
 void toggleFullScreen()
@@ -446,7 +446,8 @@ void stepPhysics(bool interactive, double t)
 		solidoSys->Update(t);
     }
 
-	player->update();
+	if(player != nullptr)
+	    player->update();
 }
 
 // Function to clean data
@@ -474,6 +475,8 @@ void cleanupPhysics(bool interactive)
 		delete solid_system;
 	}
 
+	if(player != nullptr)
+	    delete player;
 
 	PX_UNUSED(interactive);
 
@@ -492,7 +495,9 @@ void cleanupPhysics(bool interactive)
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)
 {
-	player->processInput(toupper(key));
+	if(player != nullptr)
+	    player->processInput(toupper(key));
+
 	PX_UNUSED(camera);
 
 	switch(toupper(key))
