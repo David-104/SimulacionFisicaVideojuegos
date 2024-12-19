@@ -14,7 +14,7 @@ UniformGenerator::~UniformGenerator()
 
 Particle* UniformGenerator::createParticle()
 {
-	Vector3 pos = Vector3(meanPos.x * distribution(gen), meanPos.y * distribution(gen), meanPos.z * distribution(gen));
+	Vector3 pos = Vector3(meanPos.x * distribution(gen), meanPos.y * distribution(gen), meanPos.z * distribution(gen)) + particleSys->getPos();
 
 	Vector3 vel = Vector3(meanVel.x * distribution(gen), meanVel.y * distribution(gen), meanVel.z * distribution(gen));
 

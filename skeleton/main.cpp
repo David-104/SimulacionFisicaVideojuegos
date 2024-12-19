@@ -137,7 +137,7 @@ void ShootProyectile(ProyectileType type) {
 		mass = 1.0;
 		scalingFactor = 0.5;
 		shape = CreateShape(PxSphereGeometry(0.25));
-		color = { 0.75, 0.75, 0.0, 1.0 };
+		color = { 0.75, 0.75, 0.75, 1.0 };
 		break;
     case Fireball:
 		speed = 50.0;
@@ -337,6 +337,24 @@ void solidoRigido2Demo()
 
 void createGameScene()
 {
+	//dos generadores de particulas y de fuerzas diferentes
+	createWhirlwindForceGenerator();
+	createWindForceGenerator();
+
+	//particulas diferente masa y flotacion
+	createBuoyancyDemo();
+
+	//crear sistema de solidos rigidos
+	SolidoRigidoSystem::ModelSolidoRigido model;
+	model.shape = CreateShape(PxBoxGeometry(3, 3, 3));
+	model.color = Vector4(0.0, 0.0, 1.0, 1.0);
+	model.tensor = Vector3(1 / 6 * 2 * pow(3, 2));
+	model.solidoLife = 2;
+	SolidoRigidoSystem* sys = new SolidoRigidoSystem(gScene, gPhysics, 10, Vector3(100, 5, 100), SolidoRigidoSystem::UNIFORM, Vector3(1, 1, 1), Vector3(0.5, 1, 0.5), 100, 100);
+	solidosSystems.push_back(sys);
+	sys->setModelSolidoRigido(model);
+
+	//solido rigido del suelo
 	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0)));
 	PxShape* shapeSuelo = CreateShape(PxBoxGeometry(100.0, 1.0, 100.0));
 	//material del suelo para que el jugador no rebote
@@ -346,6 +364,7 @@ void createGameScene()
 	gScene->addActor(*suelo);
 	RenderItem* sueloRI = new RenderItem(shapeSuelo, suelo, Vector4(1));
 
+	//solido rigido de adorno
 	PxRigidStatic* cubo = gPhysics->createRigidStatic(PxTransform(Vector3(0, 50, 0)));
 	PxShape* cuboShape = CreateShape(PxBoxGeometry(5, 5, 5));
 	cubo->attachShape(*cuboShape);
@@ -354,6 +373,10 @@ void createGameScene()
 
 	//player
 	player = new Player(Vector3(10, 5, 10), gScene, gPhysics, GetCamera());
+
+	//para tener rozamiento con el aire
+	SolidoWindGenerator* wind = new SolidoWindGenerator(Vector3(0), 0, 0.1, 0);
+	player->addForceGenerator(wind);
 }
 
 // Initialize physics engine
@@ -432,12 +455,12 @@ void initPhysics(bool interactive)
 void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
-	/*for (auto proyectile : proyectiles)
+	for (auto proyectile : proyectiles)
 	{
 		proyectile->Integrate(t);
-	}*/
+	}
 
-    /*for (auto ps : particleSystems)
+    for (auto ps : particleSystems)
     {
         ps->Update(t);
     }
@@ -445,7 +468,7 @@ void stepPhysics(bool interactive, double t)
     for (auto solidoSys : solidosSystems)
     {
 		solidoSys->Update(t);
-    }*/
+    }
 
 	if(player != nullptr)
 	    player->update(t);

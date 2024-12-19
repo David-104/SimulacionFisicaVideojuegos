@@ -52,7 +52,7 @@ void SolidoRigidoSystem::Update(double t)
 
 	updateSolidos(t);
 
-	//std::cout << solidos.size() << std::endl;
+	std::cout << solidos.size() << std::endl;
 }
 
 void SolidoRigidoSystem::addSolidoRigido(SolidoRigido* solido)

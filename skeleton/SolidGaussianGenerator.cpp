@@ -13,7 +13,7 @@ SolidGaussianGenerator::~SolidGaussianGenerator()
 
 SolidoRigido* SolidGaussianGenerator::createSolido()
 {
-    Vector3 pos = Vector3(meanPos.x * distribution(gen), meanPos.y * distribution(gen), meanPos.z * distribution(gen));
+    Vector3 pos = Vector3(meanPos.x * distribution(gen), meanPos.y * distribution(gen), meanPos.z * distribution(gen)) + solidoSys->getPos();
 
     Vector3 vel = Vector3(meanVel.x * distribution(gen), meanVel.y * distribution(gen), meanVel.z * distribution(gen));
 

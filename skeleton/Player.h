@@ -1,7 +1,5 @@
 #pragma once
 #include <list>
-
-#include "ForceGenerator.h"
 #include "ProyectilGancho.h"
 #include "SolidoForceGenerator.h"
 #include "SolidoRigido.h"
@@ -21,6 +19,7 @@ public:
     void createGrapplingHook();
     void removeGrapplingHook();
     void removeProyectilGancho() { proyectilGancho = nullptr; }
+    void addForceGenerator(SolidoForceGenerator* fg) { forceGenerators.push_back(fg); }
 private:
     Camera* cam = nullptr;
     PxVec2 inputDirection = {0, 0};
