@@ -1,5 +1,6 @@
 #include "SolidoRigido.h"
 
+
 SolidoRigido::SolidoRigido(Vector3 pos, PxShape* shape, PxScene* scene, PxPhysics* physics, Vector4 color, float life, float density) : scene(scene)
 {
     PxTransform transform = PxTransform(pos);
@@ -18,7 +19,7 @@ SolidoRigido::~SolidoRigido()
 {
     scene->removeActor(*rigid);
     rigid->release();
-    renderItem->release();
+    removeRenderItem();
 }
 
 void SolidoRigido::update(double t)
@@ -39,4 +40,9 @@ void SolidoRigido::addForce(Vector3 force)
 void SolidoRigido::setMassSpaceInertiaTensor(Vector3 tensor)
 {
     rigid->setMassSpaceInertiaTensor(tensor);
+}
+
+void SolidoRigido::removeRenderItem()
+{
+    renderItem->release();
 }

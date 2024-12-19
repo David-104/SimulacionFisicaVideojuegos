@@ -3,25 +3,20 @@
 #include <iostream>
 
 #include "RenderUtils.hpp"
+#include "SolidoSpringForceGenerator.h"
 
 float const PLAYER_SPEED_LIMIT = 50; 
 float const PLAYER_SPEED_FORCE = 1000; //valor alto para que el movimiento sea instantaneo
 float const JUMP_FORCE = 100;
 
-Player::Player(Vector3 pos, PxScene* scene, PxPhysics* physics, Camera* cam) : scene(scene), physics(physics), cam(cam)
+Player::Player(Vector3 pos, PxScene* scene, PxPhysics* physics, Camera* cam) :SolidoRigido(pos, CreateShape(PxCapsuleGeometry(0.5, 0.5), physics->createMaterial(0.0, 10.0, 0.0)), scene, physics) , cam(cam)
 {
-    float mass = 1.0;
+    removeRenderItem();
+    //ya que physx no tiene geometria de cilindro asumimos que una capsula es un cilindro (en este caso de altura 2 y radio 0.5) para calcular el tensor de inercia
     float radius = 0.5;
     float height = 2;
-    PxTransform transform = PxTransform(pos);
-    rigid = physics->createRigidDynamic(transform);
-
-    //ya que physx no tiene geometria de cilindro asumimos que una capsula es un cilindro (en este caso de altura 2 y radio 0.5) para calcular el tensor de inercia
-    auto shape = CreateShape(PxCapsuleGeometry(0.5, 0.5));
+    float mass = 1.0;
     //setear material del jugador
-    PxMaterial* material = physics->createMaterial(0.0, 10.0, 0.0);
-    shape->setMaterials(&material, 1);
-    rigid->attachShape(*shape);
     rigid->setMass(mass);
 
     //tensor de un cilindro porque el de la capsula es mucho mas complicado
@@ -45,12 +40,20 @@ Player::~Player()
 {
 }
 
-void Player::update()
+void Player::update(double dt)
 {
     //std::cout << "{ " << inputDirection.x << ", " << inputDirection.y << " }\n";
     std::cout << "{ " << rigid->getLinearVelocity().x << ", " << rigid->getLinearVelocity().z << " }\n";
     movement();
     cam->setEye(rigid->getGlobalPose().p + Vector3(0, 2, 0));
+
+    for (auto fg : forceGenerators)
+    {
+        fg->UpdateForce(this, dt);
+    }
+
+    if (grapplingHook != nullptr)
+        grapplingHook->UpdateForce(this, dt);
 }
 
 void Player::movement()
@@ -106,4 +109,21 @@ void Player::processInput(unsigned char key)
 void Player::jump()
 {
     rigid->addForce(Vector3(0, JUMP_FORCE, 0));
+}
+
+void Player::shootGrapplingHook()
+{
+
+}
+
+void Player::createGrapplingHook(Vector3 pos)
+{
+    if(grapplingHook == nullptr)
+        grapplingHook = new SolidoSpringForceGenerator(100, Vector3(pos - rigid->getGlobalPose().p).magnitude(), pos);
+}
+
+void Player::removeGrapplingHook()
+{
+    delete grapplingHook;
+    grapplingHook = nullptr;
 }

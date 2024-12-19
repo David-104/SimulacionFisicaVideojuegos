@@ -276,6 +276,7 @@
     <ClCompile Include="SolidoForceGenerator.cpp" />
     <ClCompile Include="SolidoRigido.cpp" />
     <ClCompile Include="SolidoRigidoSystem.cpp" />
+    <ClCompile Include="SolidoSpringForceGenerator.cpp" />
     <ClCompile Include="SolidoWindGenerator.cpp" />
     <ClCompile Include="SolidUniformGenerator.cpp" />
     <ClCompile Include="SpringForceGenerator.cpp" />
@@ -307,6 +308,7 @@
     <ClInclude Include="SolidoForceGenerator.h" />
     <ClInclude Include="SolidoRigido.h" />
     <ClInclude Include="SolidoRigidoSystem.h" />
+    <ClInclude Include="SolidoSpringForceGenerator.h" />
     <ClInclude Include="SolidoWindGenerator.h" />
     <ClInclude Include="SolidUniformGenerator.h" />
     <ClInclude Include="SpringForceGenerator.h" />

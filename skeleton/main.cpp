@@ -450,7 +450,7 @@ void stepPhysics(bool interactive, double t)
     }
 
 	if(player != nullptr)
-	    player->update();
+	    player->update(t);
 }
 
 // Function to clean data
@@ -551,6 +551,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 {
+
 	PX_UNUSED(actor1);
 	PX_UNUSED(actor2);
 }
