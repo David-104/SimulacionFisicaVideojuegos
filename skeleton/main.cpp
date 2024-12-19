@@ -338,13 +338,16 @@ void createGameScene()
 {
 	PxRigidStatic* suelo = gPhysics->createRigidStatic(PxTransform(Vector3(0)));
 	PxShape* shapeSuelo = CreateShape(PxBoxGeometry(100.0, 1.0, 100.0));
+	//material del suelo para que el jugador no rebote
+	PxMaterial* material = gPhysics->createMaterial(0.0, 0.0, 0.0);
+	shapeSuelo->setMaterials(&material, 1);
 	suelo->attachShape(*shapeSuelo);
 	gScene->addActor(*suelo);
 	RenderItem* sueloRI = new RenderItem(shapeSuelo, suelo, Vector4(1));
 
 	PxRigidStatic* cubo = gPhysics->createRigidStatic(PxTransform(Vector3(0, 50, 0)));
 	PxShape* cuboShape = CreateShape(PxBoxGeometry(5, 5, 5));
-	suelo->attachShape(*cuboShape);
+	cubo->attachShape(*cuboShape);
 	gScene->addActor(*cubo);
 	RenderItem* cuboRI = new RenderItem(cuboShape, cubo, Vector4(0, 0, 0, 1));
 

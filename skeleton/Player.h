@@ -9,6 +9,7 @@ public:
     void update();
     void movement();
     void processInput(unsigned char key);
+    void jump();
 private:
     PxScene* scene = nullptr;
     PxPhysics* physics = nullptr;
