@@ -254,7 +254,11 @@ void setupDefaultWindow(const char *name)
 	int mainHandle = glutCreateWindow(name);
 	glutSetWindow(mainHandle);
 	glutReshapeFunc(reshapeCallback);
+
+	//quitar cursor y pantalla completa porque mola mas asi
 	glutSetCursor(GLUT_CURSOR_NONE);
+	glutFullScreen();
+
 	delete[] namestr;
 }
 

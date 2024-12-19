@@ -54,6 +54,17 @@ enum ProyectileType {Bullet, Fireball, Energy };
 ProyectileType currentProyectile = Bullet;
 Player* player;
 
+bool fullScreen = true;
+void toggleFullScreen()
+{
+	if (!fullScreen)
+		glutFullScreen();
+	else
+		glutReshapeWindow(512, 512);
+
+	fullScreen = !fullScreen;
+}
+
 /*void customVector3DTests() {
 	Vector3D patata(5.0, 0.0, 0.0);
 	cout << patata << endl;
@@ -269,9 +280,8 @@ void createBuoyancyDemo()
 
 void solidoRigido1Demo()
 {
-	float width = 2.0, height = 1.0, depth = 1.0;
+	float width = 2.0, height = 1.0, depth = 1.0, mass = 1.0;
 	PxShape* shape = CreateShape(PxBoxGeometry(width, height, depth));
-	float mass = 1.0;
 	SolidoRigido* rigido = new SolidoRigido(Vector3(0.0, 20.0, 0.0), shape, gScene, gPhysics, Vector4(1.0, 0.0, 0.0, 1.0));
 	Vector3 tensor = Vector3(1 / 12 * mass * (pow(depth, 2) + pow(height, 2)),
 		1 / 12 * mass * (pow(width, 2) + pow(depth, 2)),
@@ -487,6 +497,11 @@ void keyPress(unsigned char key, const PxTransform& camera)
 
 	switch(toupper(key))
 	{
+	    case '0':
+		{
+			toggleFullScreen();
+            break;
+		}
 	    case 'Z':
 	    {
 		    ShootProyectile(currentProyectile);
@@ -523,8 +538,6 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		    }
 		    break;
 	    }
-	    default:
-		    break;
 	}
 }
 

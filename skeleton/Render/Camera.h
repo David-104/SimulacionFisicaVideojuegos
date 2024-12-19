@@ -55,6 +55,8 @@ private:
 	physx::PxVec3	mDir;
 	int				mMouseX;
 	int				mMouseY;
+	float yaw = 0.0f;    // Horizontal angle
+	float pitch = 0.0f;  // Vertical angle
 };
 
 

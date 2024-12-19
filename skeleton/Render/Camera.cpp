@@ -28,14 +28,15 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 
-
+#define _USE_MATH_DEFINES
 #include "Camera.h"
 #include <ctype.h>
 #include "foundation/PxMat33.h"
 
+
 using namespace physx;
 
-float const MOUSE_SENS = 0.01;
+float const MOUSE_SENS = 0.1;
 
 namespace Snippets
 {
@@ -95,6 +96,7 @@ void Camera::handleMotion(int x, int y)
 	mDir.normalize();
 
 
+	glutWarpPointer(glutGet(GLUT_WINDOW_WIDTH) / 2, glutGet(GLUT_WINDOW_HEIGHT) / 2);
 	mMouseX = glutGet(GLUT_WINDOW_WIDTH) / 2;
 	mMouseY = glutGet(GLUT_WINDOW_HEIGHT) / 2;
 }
