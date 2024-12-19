@@ -17,7 +17,7 @@ void RubberForceGenerator::UpdateForce(Particle* p, double t)
 
     float length = relativePos.normalize();
     float deltaX = length - _restingLength;
-    std:: cout << "Length: "<< length << " deltaX: " << deltaX << std::endl;
+    //std:: cout << "Length: "<< length << " deltaX: " << deltaX << std::endl;
     if(deltaX > 0.0f) //significa que la goma se esta estirando y queremos fuerza
         force = relativePos * deltaX * _k;
     else //la goma no se esta estirando 

@@ -49,6 +49,7 @@ std::vector<RenderItem*> renderItems;
 std::vector<Proyectile*> proyectiles;
 std::vector<ParticleSystem*> particleSystems;
 std::vector<SolidoRigidoSystem*> solidosSystems;
+std::vector<SolidoRigido*> toDelete;
 ExplosionForceGenerator* efg = nullptr;
 enum ProyectileType {Bullet, Fireball, Energy };
 ProyectileType currentProyectile = Bullet;
@@ -431,15 +432,12 @@ void initPhysics(bool interactive)
 void stepPhysics(bool interactive, double t)
 {
 	PX_UNUSED(interactive);
-
-	gScene->simulate(t);
-	gScene->fetchResults(true);
-	for each (Proyectile* proyectile in proyectiles)
+	/*for (auto proyectile : proyectiles)
 	{
 		proyectile->Integrate(t);
-	}
+	}*/
 
-    for each (ParticleSystem* ps in particleSystems)
+    /*for (auto ps : particleSystems)
     {
         ps->Update(t);
     }
@@ -447,10 +445,20 @@ void stepPhysics(bool interactive, double t)
     for (auto solidoSys : solidosSystems)
     {
 		solidoSys->Update(t);
-    }
+    }*/
 
 	if(player != nullptr)
 	    player->update(t);
+
+	gScene->simulate(t);
+	gScene->fetchResults(true);
+
+	for (auto a : toDelete)
+	{
+		delete a;
+		player->removeProyectilGancho();
+	}
+	toDelete.clear();
 }
 
 // Function to clean data
@@ -515,12 +523,6 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		    ShootProyectile(currentProyectile);
 		    break;
 	    }
-	    case 'E':
-	    {
-		    if (efg != nullptr)
-			    efg->resetTime();
-		    break;
-	    }
 	    case 'P':
 	    {
 		    switch (currentProyectile)
@@ -546,14 +548,29 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		    }
 		    break;
 	    }
+	    case 'E':
+		{
+			player->shootGrapplingHook();
+			break;
+		}
+	    case 'R':
+		{
+			player->removeGrapplingHook();
+            break;
+		}
 	}
 }
 
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 {
-
 	PX_UNUSED(actor1);
 	PX_UNUSED(actor2);
+	//coger posicion del proyectil
+	if (actor1->getName() == "proyectilGancho" && actor2->getName() != "player")
+		player->createGrapplingHook();
+	else if(actor2->getName() == "proyectilGancho" && actor1->getName() != "player")
+		player->createGrapplingHook();
+
 }
 
 int main(int, const char*const*)

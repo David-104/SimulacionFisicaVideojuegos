@@ -8,6 +8,8 @@
 float const PLAYER_SPEED_LIMIT = 50; 
 float const PLAYER_SPEED_FORCE = 1000; //valor alto para que el movimiento sea instantaneo
 float const JUMP_FORCE = 100;
+float const GANCHO_SPEED = 100;
+float const GANCHO_DIST = 1000;
 
 Player::Player(Vector3 pos, PxScene* scene, PxPhysics* physics, Camera* cam) :SolidoRigido(pos, CreateShape(PxCapsuleGeometry(0.5, 0.5), physics->createMaterial(0.0, 10.0, 0.0)), scene, physics) , cam(cam)
 {
@@ -34,6 +36,7 @@ Player::Player(Vector3 pos, PxScene* scene, PxPhysics* physics, Camera* cam) :So
     //no hace falta tener un renderItem porque es en primera persona y no se va a ver
 
     scene->addActor(*rigid);
+    rigid->setName("player");
 }
 
 Player::~Player()
@@ -43,7 +46,7 @@ Player::~Player()
 void Player::update(double dt)
 {
     //std::cout << "{ " << inputDirection.x << ", " << inputDirection.y << " }\n";
-    std::cout << "{ " << rigid->getLinearVelocity().x << ", " << rigid->getLinearVelocity().z << " }\n";
+    //std::cout << "{ " << rigid->getLinearVelocity().x << ", " << rigid->getLinearVelocity().z << " }\n";
     movement();
     cam->setEye(rigid->getGlobalPose().p + Vector3(0, 2, 0));
 
@@ -54,6 +57,15 @@ void Player::update(double dt)
 
     if (grapplingHook != nullptr)
         grapplingHook->UpdateForce(this, dt);
+
+    if(proyectilGancho != nullptr)
+    {
+        Vector3 ganchoPos = proyectilGancho->getPose()->p;
+        Vector3 playerPos = rigid->getGlobalPose().p;
+        float dist = (ganchoPos - playerPos).magnitude();
+        if (dist > GANCHO_DIST)
+            toDelete.push_back(proyectilGancho);
+    }
 }
 
 void Player::movement()
@@ -113,13 +125,27 @@ void Player::jump()
 
 void Player::shootGrapplingHook()
 {
-
+    if(proyectilGancho == nullptr)
+        proyectilGancho = new ProyectilGancho(scene, &PxGetPhysics(), cam->getTransform().p, cam->getDir() * GANCHO_SPEED, CreateShape(PxSphereGeometry(1)));
 }
 
-void Player::createGrapplingHook(Vector3 pos)
+void Player::createGrapplingHook()
 {
-    if(grapplingHook == nullptr)
-        grapplingHook = new SolidoSpringForceGenerator(100, Vector3(pos - rigid->getGlobalPose().p).magnitude(), pos);
+    Vector3 pos;
+    if(proyectilGancho != nullptr)
+        pos = proyectilGancho->getPose()->p;
+
+    if (proyectilGancho != nullptr)
+    {
+        toDelete.push_back(proyectilGancho);
+    }
+
+    if (grapplingHook != nullptr)
+    {
+        removeGrapplingHook();
+    }
+
+    grapplingHook = new SolidoSpringForceGenerator(100, Vector3(pos - rigid->getGlobalPose().p).magnitude(), pos);
 }
 
 void Player::removeGrapplingHook()

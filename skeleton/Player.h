@@ -2,8 +2,11 @@
 #include <list>
 
 #include "ForceGenerator.h"
+#include "ProyectilGancho.h"
 #include "SolidoForceGenerator.h"
 #include "SolidoRigido.h"
+
+extern std::vector<SolidoRigido*> toDelete;
 using namespace physx;
 class Player :SolidoRigido
 {
@@ -15,12 +18,14 @@ public:
     void processInput(unsigned char key);
     void jump();
     void shootGrapplingHook();
-    void createGrapplingHook(Vector3 pos);
+    void createGrapplingHook();
     void removeGrapplingHook();
+    void removeProyectilGancho() { proyectilGancho = nullptr; }
 private:
     Camera* cam = nullptr;
     PxVec2 inputDirection = {0, 0};
     std::list<SolidoForceGenerator*> forceGenerators;
     SolidoForceGenerator* grapplingHook = nullptr;
+    ProyectilGancho* proyectilGancho = nullptr;
 };
 

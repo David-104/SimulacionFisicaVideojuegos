@@ -15,7 +15,10 @@ void SolidoSpringForceGenerator::UpdateForce(SolidoRigido* solido, double t)
     float length = relativePos.normalize();
     float deltaX = length - _restingLength;
 
-    force = relativePos * deltaX * _k;
+    if (deltaX > 0.0f)
+        force = relativePos * deltaX * _k;
+    else
+        force = Vector3(0);
 
     solido->addForce(force);
 }
